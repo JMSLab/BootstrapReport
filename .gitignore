@@ -7,7 +7,25 @@ dist/
 __pycache__/
 *.so
 *~
+*.lyx~
+*.lyx#
+*.RDS
+*.RData
+*.Rhistory
+*.Rapp.history
+*.DS_Store
+*.aux
+*.fls
+*.lof
+*.lot
+*.nav
+*.snm
+*.toc
+*.out
+*.svn
+*.m~
+*.asv
+*.ipynb
 
 # due to using tox and pytest
-.tox
 .cache
