@@ -1,3 +1,10 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
+packages = ["src.BootstrapReport"]
+
 [project]
 name = "BootstrapReport"
 version = "0.0.1" 
@@ -20,9 +27,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
-
 keywords = ["bootstrap"]
-
 dependencies = [
   "matplotlib",
   "scipy",
@@ -41,8 +46,4 @@ test = ["pytest"]
 [tool.pytest.ini_options]
 pythonpath = ["src", "src/BootstrapReport", "tests"]
 testpaths = "tests"
-
-[build-system]
-requires = ["setuptools>=61.0"]
-build-backend = "setuptools.build_meta"
 
