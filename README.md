@@ -9,4 +9,4 @@ Documentation:
 * [Examples](./examples/)
 
 Citation:
-Andrews, Isaiah and Jesse M. Shapiro. "Bootstrap Diagnostics for Irregular Estimators." 2023. Working Paper.
+* Andrews, Isaiah and Jesse M. Shapiro. "Bootstrap Diagnostics for Irregular Estimators." 2023. Working Paper.
