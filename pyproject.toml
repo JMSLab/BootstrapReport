@@ -10,7 +10,7 @@ name = "BootstrapReport"
 version = "0.0.1" 
 authors = [
     {name = "Jesse Shapiro", email = "jesse shapiro@fas.harvard.edu"},
-    {name = "Isaiah Andrews", email = "iandrews@mit.edu"},
+    {name = "Isaiah Andrews", email = "iandrews@mit.edu"}
 ]
 description = "A package for checking normality when using bootstraps"
 readme = "README.md"
@@ -19,6 +19,7 @@ requires-python = ">=3.7"
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Science/Research",
+    "Topic :: Scientific/Engineering :: Mathematics",
     "License :: OSI Approved :: MIT License",
     "Programming Language :: Python :: 3 :: Only",
     "Programming Language :: Python :: 3.8",
@@ -27,7 +28,7 @@ classifiers = [
     "Programming Language :: Python :: 3.11",
     "Operating System :: OS Independent",
 ]
-keywords = ["bootstrap"]
+keywords = ["bootstrap", "diagnostic", "report", "signed kolmogorov"]
 dependencies = [
   "matplotlib",
   "scipy",
