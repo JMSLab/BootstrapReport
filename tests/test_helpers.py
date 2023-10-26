@@ -1,12 +1,11 @@
 """ Test functions in helpers.py """
-import sys, os, re
+
 import warnings
 from math import log10, floor
 import numpy as np
 from scipy import integrate
 from scipy.stats import norm, uniform
-sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
-import helpers
+import BootstrapReport.helpers
 
 
 def round_to_2(x, sig=2):

@@ -3,10 +3,7 @@
 import numpy as np
 import pytest
 from scipy.stats import norm
-
-import sys, os, re
-sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
-import checkers
+import BootstrapReport.checkers
 
 
 def test_check_parameters():

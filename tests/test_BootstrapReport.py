@@ -3,9 +3,8 @@
 import numpy as np, pandas as pd
 from scipy.stats import norm, uniform
 from scipy.optimize import minimize
-import sys, os, re, pytest
-sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
-from BootstrapReport import ObjectOfInterest
+import pytest
+from BootstrapReport.BootstrapReport import ObjectOfInterest
 import helpers
 import test_helpers
 
