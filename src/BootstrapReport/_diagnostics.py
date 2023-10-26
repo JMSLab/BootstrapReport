@@ -1,9 +1,7 @@
 import os
-import seaborn as sns
+import seaborn as sns, numpy as np, pandas as pd
 import helpers
-import numpy as np
 import matplotlib.pyplot as plt
-import pandas as pd
 from scipy.stats import norm
 
 
