@@ -5,7 +5,8 @@ import pytest
 from scipy.stats import norm
 
 import sys, os, re
-import BootstrapReport.checkers
+sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
+import checkers
 
 
 def test_check_parameters():

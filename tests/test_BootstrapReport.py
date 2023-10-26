@@ -1,17 +1,13 @@
 """ Test functions in ObjectOfInterest.py """
 
-from scipy.stats import norm
-import numpy as np
+import numpy as np, pandas as pd
 from scipy.stats import norm, uniform
 from scipy.optimize import minimize
-import pytest
-
-import sys, os, re
-from BootstrapReport.BootstrapReport import ObjectOfInterest
-import pandas as pd
+import sys, os, re, pytest
+sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
+from BootstrapReport import ObjectOfInterest
 import helpers
 import test_helpers
-import pytest
 
 def test_bandwidth_to_se_ratio():
     test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values

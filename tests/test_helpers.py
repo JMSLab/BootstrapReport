@@ -3,12 +3,10 @@ import sys, os, re
 import warnings
 from math import log10, floor
 import numpy as np
-from numpy import array
 from scipy import integrate
-from scipy.stats import norm
-from scipy.stats import uniform
-
-import BootstrapReport.helpers
+from scipy.stats import norm, uniform
+sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
+import helpers
 
 
 def round_to_2(x, sig=2):
@@ -93,6 +91,6 @@ def test_get_tvd():
             != round_to_2(norm.cdf(mu2 / 2) - norm.cdf(- mu2 / 2)) # fails when mu1 != 0
 
 def test_get_grid():
-    assert np.array_equal(helpers.get_grid(0, 1, -1, 1), array([0.0, 0.0])) is True
-    assert np.array_equal(helpers.get_grid(1, -1, 1, 2), array([0.1, 1.0, 10.0])) is True
-    assert np.array_equal(helpers.get_grid(1, -1, 1, 1), array([0.1, 10.0])) is True
+    assert np.array_equal(helpers.get_grid(0, 1, -1, 1), np.array([0.0, 0.0])) is True
+    assert np.array_equal(helpers.get_grid(1, -1, 1, 2), np.array([0.1, 1.0, 10.0])) is True
+    assert np.array_equal(helpers.get_grid(1, -1, 1, 1), np.array([0.1, 10.0])) is True
