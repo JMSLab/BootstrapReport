@@ -1,0 +1,1421 @@
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+
+\DeclareMathOperator{\sgn}{sgn}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\Corr}{Corr}
+\DeclareMathOperator{\Cov}{Cov}
+\DeclareMathOperator{\E}{E}
+\DeclareMathOperator{\SD}{SD}
+\DeclareMathOperator{\V}{V}
+\DeclareMathOperator{\logit}{logit}
+\DeclareMathOperator{\I}{I}
+\DeclareMathOperator{\plim}{plim}
+\DeclareMathOperator{\diag}{diag}
+
+
+\DeclareMathOperator*{\argmax}{arg\,max} 
+\DeclareMathOperator*{\argmin}{arg\,min} 
+\end_preamble
+\use_default_options true
+\begin_modules
+theorems-ams
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "ae" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize default
+\use_geometry true
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 1
+\use_package mathdots 1
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 1
+\use_minted 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\leftmargin 1in
+\topmargin 1in
+\rightmargin 1in
+\bottommargin 1in
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+BootstrapReport Methods
+\end_layout
+
+\begin_layout Abstract
+This note accompanies the package 
+\family typewriter
+BootstrapReport
+\family default
+.
+ It lays out methods for the calculations in the package.
+\end_layout
+
+\begin_layout Section*
+SK-distance-minimizing normal approximation to bootstrap replicates
+\end_layout
+
+\begin_layout Itemize
+We have 
+\begin_inset Formula $s\in\left\{ 1,...,S\right\} $
+\end_inset
+
+ bootstrap replicates 
+\begin_inset Formula $\hat{\theta}_{s}$
+\end_inset
+
+ of the estimator 
+\begin_inset Formula $\hat{\theta}$
+\end_inset
+
+ which has standard error 
+\begin_inset Formula $\hat{\sigma}_{\hat{\theta}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Let 
+\begin_inset Formula $\hat{\eta}=\frac{1}{S}\sum_{s}\delta_{\hat{\theta}_{s}}\in\Delta\left(\Theta\right)$
+\end_inset
+
+ be the distribution of the replicates, with 
+\begin_inset Formula $\delta_{\hat{\theta}_{s}}$
+\end_inset
+
+ the Dirac mass at 
+\begin_inset Formula $\hat{\theta}_{s}$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Define the empirical distribution function 
+\begin_inset Formula $\hat{F}_{\hat{\eta}}\left(\cdot\right)=\frac{1}{S}\sum_{S}I\left(\cdot\leq\hat{\theta}_{s}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Let 
+\begin_inset Formula $\Phi\left(\cdot;\mu,\sigma^{2}\right)$
+\end_inset
+
+ be the CDF of the normal distribution 
+\begin_inset Formula $N\left(\mu,\sigma^{2}\right)$
+\end_inset
+
+ with mean 
+\begin_inset Formula $\mu$
+\end_inset
+
+ and variance 
+\begin_inset Formula $\sigma^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Let
+\begin_inset Formula 
+\begin{align*}
+SK^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right) & =\max_{s\in\left\{ 1,...,S\right\} }\left\{ \hat{F}_{\eta}\left(\hat{\theta}_{s}\right)-\Phi\left(\hat{\theta}_{s};\mu,\sigma^{2}\right)\right\} \\
+SK^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right) & =\max_{s\in\left\{ 1,...,S\right\} }\left\{ -\left(\hat{F}_{\eta}\left(\hat{\theta}_{s}\right)-\Phi\left(\hat{\theta}_{s};\mu,\sigma^{2}\right)-\frac{1}{S}\right)\right\} 
+\end{align*}
+
+\end_inset
+
+and let 
+\begin_inset Formula $SK\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)=SK^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)+SK^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)$
+\end_inset
+
+ be their sum.
+\end_layout
+
+\begin_layout Itemize
+Calculate 
+\begin_inset Formula 
+\[
+\left(\mu^{*},\sigma^{*2}\right)=\argmin_{\left(\mu,\sigma^{2}\right)\in\mathbb{\mathcal{M}}\times\mathcal{S}}SK\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)
+\]
+
+\end_inset
+
+with starting values 
+\begin_inset Formula $\mu_{0}=\hat{\theta}$
+\end_inset
+
+ and 
+\begin_inset Formula $\sigma_{0}^{2}=\hat{\sigma}_{\hat{\theta}}^{2}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+By default we set the domain of the minimization to
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\mathcal{M}=\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} ,\max_{s}\left\{ \hat{\theta}_{s}\right\} \right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} -\min_{s}\left\{ \hat{\theta}_{s}\right\} }{\sqrt{2\pi}}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section*
+P-P plot comparing bootstrap replicates to normal distribution
+\end_layout
+
+\begin_layout Itemize
+We plot 
+\begin_inset Formula $\left\{ \Phi\left(\hat{\theta}_{s};\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right),\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{s}\right)\right\} _{s=1}^{S}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We plot a 45-degree line with a 
+\begin_inset CommandInset href
+LatexCommand href
+name "DKW"
+target "https://en.wikipedia.org/wiki/Dvoretzky%E2%80%93Kiefer%E2%80%93Wolfowitz_inequality"
+literal "false"
+
+\end_inset
+
+ confidence band, 
+\begin_inset Formula $\left\{ x,x\pm\sqrt{\frac{\ln\left(2/\alpha\right)}{2S}}\right\} _{x\in\left[0,1\right]}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Here 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a user-specified constant that defaults to 
+\begin_inset Formula $0.05$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+Number of changes in direction in the difference in CDFs
+\end_layout
+
+\begin_layout Itemize
+Define the lower and upper confidence bounds for the difference in CDFs:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{-}\left(x\right)=\max\left\{ \hat{F}_{\hat{\eta}}\left(x\right)-\sqrt{\frac{\ln\left(2/\alpha\right)}{2S}},0\right\} -\Phi\left(x;\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{+}\left(x\right)=\min\left\{ \hat{F}_{\hat{\eta}}\left(x\right)+\sqrt{\frac{\ln\left(2/\alpha\right)}{2S}},1\right\} -\Phi\left(x;\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Define a coordinate path 
+\begin_inset Formula $\left\{ x_{t},y_{t},\tau_{t},m_{t}\right\} _{t\in\left\{ 0,...,S+1\right\} }$
+\end_inset
+
+ such that
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $x_{t}\in\mathbb{R}$
+\end_inset
+
+ is the position within the support of the replicates
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $y_{t}\in\left[\hat{SK}_{\hat{\theta}}^{-}\left(x\right),\hat{SK}_{\hat{\theta}}^{+}\left(x\right)\right]$
+\end_inset
+
+ is the position within the confidence bands
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $m_{t}\in\left\{ 0,-,+\right\} $
+\end_inset
+
+ is the 
+\begin_inset Quotes eld
+\end_inset
+
+direction
+\begin_inset Quotes erd
+\end_inset
+
+ of the path
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tau_{t}\in\mathbb{N}_{0}$
+\end_inset
+
+ is the cumulative number of changes in direction
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+To ensure that 
+\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{-}(x_{1})\not>0$
+\end_inset
+
+ at the start of the test, assert 
+\begin_inset Formula $\alpha\leq2e^{-2S\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)^{2}}$
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\Rightarrow\frac{2}{\alpha}\geq e^{2S\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\Rightarrow\hat{SK}_{\hat{\theta}}^{-}(\hat{\theta}_{1})\leq\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)-\sqrt{\frac{\log\left(\frac{2}{\alpha}\right)}{2S}}\leq0$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Start at 
+\begin_inset Formula $x_{0}=-\infty$
+\end_inset
+
+, 
+\begin_inset Formula $y_{0}=0$
+\end_inset
+
+, 
+\begin_inset Formula $\tau_{0}=0$
+\end_inset
+
+, 
+\begin_inset Formula $m_{0}=0$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Let 
+\begin_inset Formula $x_{1}=\hat{\theta}_{1}$
+\end_inset
+
+.
+ If 
+\begin_inset Formula $y_{0}\in\left[\hat{SK}_{\hat{\theta}}^{-}(x_{1}),\hat{SK}_{\hat{\theta}}^{+}(x_{1})\right],$
+\end_inset
+
+ set 
+\begin_inset Formula $y_{1}=v_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $m_{1}=m_{0}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{+}(x_{1})<0$
+\end_inset
+
+, set 
+\begin_inset Formula $y_{1}=\hat{SK}_{\hat{\theta}}^{+}(x_{1})-\frac{1}{S}$
+\end_inset
+
+ and 
+\begin_inset Formula $m_{1}=-$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Set 
+\begin_inset Formula $x_{t+1}=\hat{\theta}_{t+1}$
+\end_inset
+
+.
+ For 
+\begin_inset Formula $t\in\left\{ 1,\dots,S-1\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $y_{t}\geq\hat{SK}_{\hat{\theta}}^{+}(x_{t+1})-\frac{1}{S}$
+\end_inset
+
+, set 
+\begin_inset Formula $y_{t+1}=\hat{SK}_{\hat{\theta}}^{+}(x_{t+1})-\frac{1}{S}$
+\end_inset
+
+ and 
+\begin_inset Formula $m_{t+1}=-$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $m_{t}=+$
+\end_inset
+
+, then set 
+\begin_inset Formula $\tau_{t}=\tau_{t-1}+1$
+\end_inset
+
+.
+ Otherwise, 
+\begin_inset Formula $\tau_{t}=\tau_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $y_{t}\leq\hat{SK}_{\hat{\theta}}^{-}(x_{t+1})$
+\end_inset
+
+, set 
+\begin_inset Formula $y_{t+1}=\hat{SK}_{\hat{\theta}}^{-}(x_{t+1})$
+\end_inset
+
+ and 
+\begin_inset Formula $m_{t+1}=+$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $m_{t}=-$
+\end_inset
+
+, then set 
+\begin_inset Formula $\tau_{t}=\tau_{t-1}+1$
+\end_inset
+
+.
+ Otherwise, 
+\begin_inset Formula $\tau_{t}=\tau_{t-1}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Else, let 
+\begin_inset Formula $y_{t+1}=y_{t}$
+\end_inset
+
+ and 
+\begin_inset Formula $m_{t+1}=m_{t}$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Set 
+\begin_inset Formula $y_{S+1}=0$
+\end_inset
+
+ and 
+\begin_inset Formula $x_{S+1}=\infty$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+If 
+\begin_inset Formula $m_{S}=-$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{S}<0$
+\end_inset
+
+ or 
+\begin_inset Formula $m_{S}=+$
+\end_inset
+
+ and 
+\begin_inset Formula $y_{S}>0$
+\end_inset
+
+ , then let 
+\begin_inset Formula $\tau_{S}=\tau_{S-1}+1$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Return 
+\begin_inset Formula $\tau_{S}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section*
+Calculating TV distance between bootstrap replicates and the normal distribution
+\end_layout
+
+\begin_layout Itemize
+Define 
+\begin_inset Formula $TV\left(\mu,\nu\right)=\frac{1}{2}\int_{-\infty}^{\infty}\left|f_{\mu}\left(t\right)-f_{\nu}\left(t\right)\right|dt$
+\end_inset
+
+ where 
+\begin_inset Formula $f_{\mu}\left(t\right),f_{\nu}\left(t\right)$
+\end_inset
+
+ are the densities corresponding to the measures 
+\begin_inset Formula $\mu,\nu$
+\end_inset
+
+ (Tsybakov 2009, Lemma 2.1).
+\end_layout
+
+\begin_layout Itemize
+Define a grid of values 
+\begin_inset Formula $\mathcal{G}=\left\{ 10^{\left(\underline{b}\left(\frac{g}{G}\right)+\overline{b}\left(\frac{G-g}{G}\right)\right)}\hat{\rho}_{\hat{\theta}}\right\} _{g=0}^{G}$
+\end_inset
+
+ where 
+\begin_inset Formula $\underline{b},\overline{b}$
+\end_inset
+
+ determine the range of the grid, 
+\begin_inset Formula $G$
+\end_inset
+
+ its fineness, and 
+\begin_inset Formula $\hat{\rho}_{\hat{\theta}}$
+\end_inset
+
+ its centering value.
+\end_layout
+
+\begin_layout Itemize
+For each 
+\begin_inset Formula $r\in\left\{ 1,\dots,R\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+For each 
+\begin_inset Formula $s\in\left\{ 1,...,2S\right\} $
+\end_inset
+
+:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+Draw 
+\begin_inset Formula $S$
+\end_inset
+
+ values 
+\begin_inset Formula $X_{1,r},...,X_{S,r}$
+\end_inset
+
+ i.i.d.
+ from 
+\begin_inset Formula $N\left(\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Define the empirical distribution of the 
+\begin_inset Formula $S$
+\end_inset
+
+ draws as 
+\begin_inset Formula $\hat{\eta}_{r}$
+\end_inset
+
+ and the distribution of the kernel density estimate of the 
+\begin_inset Formula $S$
+\end_inset
+
+ draws with bandwidth 
+\begin_inset Formula $b$
+\end_inset
+
+ as 
+\begin_inset Formula $c_{b}\left(X_{r}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+For each 
+\begin_inset Formula $b\in\mathcal{G}$
+\end_inset
+
+, calculate 
+\begin_inset Formula $T_{b,r}=TV\left(c_{b}\left(X_{r}\right),N\left(\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)\right)$
+\end_inset
+
+ for 
+\begin_inset Formula $TV\left(\cdot,\cdot\right)$
+\end_inset
+
+ the total variation distance
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Now for each 
+\begin_inset Formula $b\in\mathcal{G}$
+\end_inset
+
+, calculate 
+\begin_inset Formula $T_{b}=\frac{1}{R}\sum_{r=1}^{R}T_{b,r}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Itemize
+Choose 
+\begin_inset Formula $b^{*}=\arg\min_{b\in\mathcal{G}}T_{b}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+To avoid solutions on the boundary, we expand the grid adaptively
+\end_layout
+
+\begin_layout Itemize
+We initiate with values 
+\begin_inset Formula $G_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $\underline{b}_{0}$
+\end_inset
+
+, 
+\begin_inset Formula $\overline{b}_{0}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+Then beginning with 
+\begin_inset Formula $a=1$
+\end_inset
+
+ we iterate as follows up to a maximum of 
+\begin_inset Formula $\overline{a}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We set 
+\begin_inset Formula $G=G_{0}a$
+\end_inset
+
+, 
+\begin_inset Formula $\underline{b}=\underline{b}_{0}a$
+\end_inset
+
+, 
+\begin_inset Formula $\overline{b}=\overline{b}_{0}a$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+If 
+\begin_inset Formula $b^{*}\in\left\{ \min\mathcal{G},\min\left(\mathcal{G}\setminus\min\mathcal{G}\right),\max\mathcal{G},\max\left(\mathcal{G}\setminus\max\mathcal{G}\right)\right\} $
+\end_inset
+
+, so the selected bandwidth is at or near the boundary of the grid, we increment
+ 
+\begin_inset Formula $a$
+\end_inset
+
+ by 
+\begin_inset Formula $1$
+\end_inset
+
+ and repeat
+\end_layout
+
+\begin_layout Itemize
+Otherwise we stop
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Itemize
+Let 
+\begin_inset Formula $T_{b^{*}}^{*}=\frac{1}{S}\sum_{s=S+1}^{2S}T_{b^{*},s}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+We economize on computation because for this 
+\begin_inset Quotes eld
+\end_inset
+
+second set
+\begin_inset Quotes erd
+\end_inset
+
+ of draws we only need the calculation for 
+\begin_inset Formula $b^{*}$
+\end_inset
+
+, rather than for all 
+\begin_inset Formula $b\in\mathcal{G}$
+\end_inset
+
+.
+ (What's important is that we use a 
+\begin_inset Quotes eld
+\end_inset
+
+fresh
+\begin_inset Quotes erd
+\end_inset
+
+ set of draws different from those we used to select 
+\begin_inset Formula $b^{*}$
+\end_inset
+
+.)
+\end_layout
+
+\begin_layout Itemize
+Note also that if we calculate 
+\begin_inset Formula $b^{*}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{b^{*}}$
+\end_inset
+
+ for some parameter 
+\begin_inset Formula $\hat{\theta}$
+\end_inset
+
+ and some 
+\begin_inset Formula $S$
+\end_inset
+
+ replicates, the same 
+\begin_inset Formula $T_{b^{*}}$
+\end_inset
+
+, and the same ratio 
+\begin_inset Formula $b^{*}/\hat{\sigma}_{\hat{\theta}}$
+\end_inset
+
+, will apply to any parameter 
+\begin_inset Formula $\hat{\theta}'$
+\end_inset
+
+ for which we have 
+\begin_inset Formula $S$
+\end_inset
+
+ replicates.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Calculate 
+\begin_inset Formula $TV\left(c_{b^{*}}\left(X\right),N\left(\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)\right)-T_{b^{*}}^{*}$
+\end_inset
+
+ as our bias-corrected estimate of the TV distance of the replicates 
+\begin_inset Formula $\hat{\theta}_{s}$
+\end_inset
+
+ from the normal 
+\begin_inset Formula $N\left(\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+If 
+\begin_inset Formula $\frac{\left|T_{b^{*}}^{*}-T_{b^{*}}\right|}{TV\left(c_{b^{*}}\left(X\right),N\left(\hat{\theta},\hat{\sigma}_{\hat{\theta}}\right)\right)-T_{b^{*}}^{*}}\ge\tau_{0}$
+\end_inset
+
+ and 
+\begin_inset Formula $\left|T_{b^{*}}^{*}-T_{b^{*}}\right|\ge\tau_{1}$
+\end_inset
+
+, we throw a warning suggesting to use a higher value of 
+\begin_inset Formula $S$
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+Default settings are:
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\hat{\rho}_{\hat{\theta}}=\left(\frac{4}{3R}\right)^{1/5}\hat{\sigma}_{\hat{\theta}}$
+\end_inset
+
+ per 
+\begin_inset CommandInset href
+LatexCommand href
+name "ROT"
+target "https://en.wikipedia.org/wiki/Kernel_density_estimation#A_rule-of-thumb_bandwidth_estimator"
+literal "false"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $G_{0}=10$
+\end_inset
+
+, 
+\begin_inset Formula $\underline{b}_{0}=-1$
+\end_inset
+
+, 
+\begin_inset Formula $\overline{b}_{0}=1$
+\end_inset
+
+ so we try 
+\begin_inset Formula $10$
+\end_inset
+
+ values from 
+\begin_inset Formula $1/10$
+\end_inset
+
+th to 
+\begin_inset Formula $10$
+\end_inset
+
+ times the ROT
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\overline{a}=3$
+\end_inset
+
+, so we expand the grid at most twice before we stop
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $R=100$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\tau_{0}=0.1$
+\end_inset
+
+, 
+\begin_inset Formula $\tau_{1}=0.001$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+TV-minimizing normal approximation to bootstrap replicates
+\end_layout
+
+\begin_layout Itemize
+Calculate
+\begin_inset Formula 
+\[
+\left(\mu^{*},\sigma^{*}\right)=\argmin_{\left(\mu,\sigma\right)\in\mathbb{\mathcal{M}}\times\mathcal{S}}TV\left(c_{b^{*}}\left(X\right),N\left(\mu,\sigma^{2}\right)\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+User can either input starting values 
+\begin_inset Formula $\left(\mu_{0},\sigma_{0}^{2}\right)$
+\end_inset
+
+ directly or select one of two presets
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\left(\mu_{0},\sigma_{0}^{2}\right)=\left(\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\left(\mu_{0},\sigma_{0}^{2}\right)=\left(\E_{\hat{\eta}}\left(\theta\right),\Var_{\hat{\eta}}\left(\theta\right)\right)$
+\end_inset
+
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Itemize
+By default we set the domain of the minimization to
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+\begin_inset Formula $\mathcal{M}=\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} ,\max_{s}\left\{ \hat{\theta}_{s}\right\} \right]$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} -\min_{s}\left\{ \hat{\theta}_{s}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4S}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}\right]$
+\end_inset
+
+, where 
+\begin_inset Formula $\Phi^{-1}$
+\end_inset
+
+ denotes the inverse standard normal cdf.
+\end_layout
+
+\end_deeper
+\end_deeper
+\begin_layout Section*
+Density plot of bootstrap replicates
+\end_layout
+
+\begin_layout Itemize
+We plot the density 
+\begin_inset Formula $\hat{f}_{\hat{\theta}}\left(\cdot;b^{*}\right)$
+\end_inset
+
+ of the kernel density estimate 
+\begin_inset Formula $c_{b^{*}}\left(X\right)$
+\end_inset
+
+ of the 
+\begin_inset Formula $S$
+\end_inset
+
+ draws with the bias-minimizing choice of bandwidth 
+\begin_inset Formula $b^{*}$
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The default plotting range is 
+\begin_inset Formula $\left[\hat{\theta}_{1}-2b^{*},\hat{\theta}_{S}+2b^{*}\right]$
+\end_inset
+
+
+\end_layout
+
+\end_deeper
+\begin_layout Section*
+
+\series bold
+References
+\end_layout
+
+\begin_layout Standard
+Tsybakov, Alexandre B.
+ 2009.
+ 
+\emph on
+Introduction to Nonparametric Estimation
+\emph default
+.
+ Springer: New York, NY.
+\end_layout
+
+\begin_layout Section*
+\start_of_appendix
+Appendix
+\end_layout
+
+\begin_layout Proposition
+\begin_inset CommandInset label
+LatexCommand label
+name "prop:tvd_n_u"
+
+\end_inset
+
+Let 
+\begin_inset Formula $U\sim U\left[0,\theta\right]$
+\end_inset
+
+ with corresponding cdf 
+\begin_inset Formula $F_{U}$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula 
+\[
+\left(\mu^{*},\sigma^{*}\right)=\underset{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{>0}}{\mathrm{argmin}}TV\left(U,N\left(\mu,\sigma^{2}\right)\right)=\left(\frac{\theta}{2},c\theta\right),
+\]
+
+\end_inset
+
+for some known constant 
+\begin_inset Formula $c$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Proof
+Concerning the mean, for any standard deviation, shifting the mean away
+ from 
+\begin_inset Formula $\theta$
+\end_inset
+
+/2 will result in an increase in TV distance.
+ When drawing the normal distribution for various standard deviations with
+ mean equal to 
+\begin_inset Formula $\theta/2$
+\end_inset
+
+, the pdfs of the normal and the uniform distributions are equal at either
+ zero, one or two points.
+ For the zero- or one-point case, the TV distance is equal to the area under
+ the uniform pdf minus the area under the normal pdf on the domain of the
+ uniform distribution.
+ For the two-point case, the TV distance is equal to the area below the
+ uniform pdf but above the normal pdf.
+ It turns out that the two-point case always yields a smaller TV distance
+ than the zero- or one-point case.
+ So then the optimal standard deviation solves:
+\begin_inset Formula 
+\[
+\sigma^{*}=\underset{\sigma<\theta/\sqrt{2\pi}}{\mathrm{argmin}}\left\{ -\frac{b\left(\sigma\right)}{\theta}-\Phi\left(\frac{\theta/2}{\sigma}\right)+\Phi\left(\frac{b\left(\sigma\right)-\theta/2}{\sigma}\right)+\frac{a\left(\sigma\right)}{\theta}-\Phi\left(\frac{a\left(\sigma\right)-\theta/2}{\sigma}\right)+\Phi\left(\frac{-\theta/2}{\sigma}\right)\right\} .
+\]
+
+\end_inset
+
+for
+\begin_inset Formula 
+\begin{align*}
+a\left(\sigma\right) & =\frac{\theta}{2}-\sigma\sqrt{-2\log\left(\frac{\sigma\sqrt{2\pi}}{\theta}\right)}\\
+b\left(\sigma\right) & =\frac{\theta}{2}+\sigma\sqrt{-2\log\left(\frac{\sigma\sqrt{2\pi}}{\theta}\right)}
+\end{align*}
+
+\end_inset
+
+the points where the uniform and normal pdfs are equal.
+ Note that 
+\begin_inset Formula $\sigma=\theta/\sqrt{2\pi}$
+\end_inset
+
+ corresponds to the case where there is exactly one point where the pdfs
+ are equal.
+ This results in the FOC
+\begin_inset Formula 
+\[
+\frac{1}{\sigma^{2}\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{a\left(\sigma\right)-\theta/2}{\sigma}\right)^{2}}\frac{a\left(\sigma\right)-\theta/2}{\sigma}=\frac{1}{\sigma^{2}\sqrt{2\pi}}e^{-\frac{1}{2}\left(\frac{-\theta/2}{\sigma}\right)^{2}}\frac{-\theta/2}{\sigma},
+\]
+
+\end_inset
+
+which yields the solution 
+\begin_inset Formula $\sigma^{*}=\sqrt{1/\kappa}\theta$
+\end_inset
+
+ for 
+\begin_inset Formula $\kappa=8.837393523694258399...$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Remark
+To test our calculations we derive the analytic solution to the problem
+ of minimizing the TV distance between a normal and a uniform.
+ Consider the setting where we are trying to find the TV-minimizing normal
+ approximation to bootstrap replicates:
+\begin_inset Formula 
+\[
+\left(\mu^{*},\sigma^{*}\right)=\argmin_{\left(\mu,\sigma\right)\in\mathcal{M}\times\mathcal{S}}TV\left(c_{b^{*}}\left(X\right),N\left(\mu,\sigma^{2}\right)\right).
+\]
+
+\end_inset
+
+A useful question to answer is what are choices of 
+\begin_inset Formula $\mathcal{M}$
+\end_inset
+
+ and 
+\begin_inset Formula $\mathcal{S}$
+\end_inset
+
+ such that the solution restricted to 
+\begin_inset Formula $\mathcal{M}\times\mathcal{S}$
+\end_inset
+
+ is guaranteed to coincide with the global optimum.
+ An appropriate choice for 
+\begin_inset Formula $\mathcal{M}$
+\end_inset
+
+ is 
+\begin_inset Formula $\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} ,\max_{s}\left\{ \hat{\theta}_{s}\right\} \right]$
+\end_inset
+
+.
+ To find an upperbound on 
+\begin_inset Formula $\sigma^{*}$
+\end_inset
+
+, we first find an upperbound on the TV distance itself.
+ For this, we characterize the distributions by their pdfs, and we then
+ have that for any 
+\begin_inset Formula $s'\in\left\{ 1,...,S\right\} $
+\end_inset
+
+,
+\begin_inset Formula 
+\begin{align*}
+\min_{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{+}}TV\left(\hat{f}_{\hat{\theta}}\left(\cdot;b^{*}\right),\frac{1}{\sigma}\phi\left(\frac{\cdot-\mu}{\sigma}\right)\right) & =\min_{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{+}}TV\left(\frac{1}{Sb^{*}}\sum_{s=1}^{S}\phi\left(\frac{\cdot-\hat{\theta}_{s}}{b^{*}}\right),\frac{1}{\sigma}\phi\left(\frac{\cdot-\mu}{\sigma}\right)\right)\\
+ & \leq TV\left(\frac{1}{Sb^{*}}\sum_{s=1}^{S}\phi\left(\frac{\cdot-\hat{\theta}_{s}}{b^{*}}\right),\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{s'}}{b^{*}}\right)\right)\\
+ & \leq\frac{1}{S}\sum_{s=1}^{S}TV\left(\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{s}}{b^{*}}\right),\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{s'}}{b^{*}}\right)\right)\\
+ & \leq1-\frac{1}{S}.
+\end{align*}
+
+\end_inset
+
+We can then proceed in two steps:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+We first find an interval 
+\begin_inset Formula $\left[a,b\right]$
+\end_inset
+
+ to which 
+\begin_inset Formula $\hat{f}_{\hat{\theta}}\left(\cdot;b^{*}\right)$
+\end_inset
+
+ assigns at least 
+\begin_inset Formula $1-\frac{1}{2S}$
+\end_inset
+
+ probability mass.
+ It turns out that 
+\begin_inset Formula $\left[a,b\right]=\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}},\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}\right]$
+\end_inset
+
+ satisfies this requirement, where 
+\begin_inset Formula $q_{\alpha}$
+\end_inset
+
+ denotes the 
+\begin_inset Formula $\alpha$
+\end_inset
+
+-quantile of 
+\begin_inset Formula $\mathcal{N}\left(0,\left(b^{*}\right)^{2}\right)$
+\end_inset
+
+:
+\begin_inset Formula 
+\begin{align*}
+\int_{\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}}}^{\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}}\hat{f}_{\hat{\theta}}\left(x;b^{*}\right)dx & =\frac{1}{S}\sum_{r=1}^{S}\int_{\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}}}^{\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}}\frac{1}{b^{*}}\phi\left(\frac{x-\hat{\theta}_{s}}{b^{*}}\right)dx\\
+ & =\frac{1}{S}\sum_{s=1}^{S}\left\{ \Phi\left(\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}-\hat{\theta}_{s}}{b^{*}}\right)-\Phi\left(\frac{\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}}-\hat{\theta}_{s}}{b^{*}}\right)\right\} \\
+ & \geq\frac{1}{S}\sum_{s=1}^{S}\left\{ \Phi\left(\frac{q_{1-\frac{1}{4S}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4S}}}{b^{*}}\right)\right\} \\
+ & =\Phi\left(\frac{q_{1-\frac{1}{4S}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4S}}}{b^{*}}\right)\\
+ & =1-\frac{1}{2S}.
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Next, we can set 
+\begin_inset Formula $\sigma_{UB}$
+\end_inset
+
+ as the value of 
+\begin_inset Formula $\sigma$
+\end_inset
+
+ such that when we set 
+\begin_inset Formula $\mu=\frac{a+b}{2}$
+\end_inset
+
+, the distribution 
+\begin_inset Formula $\mathcal{N}\left(\mu,\sigma_{UB}^{2}\right)$
+\end_inset
+
+ assigns mass 
+\begin_inset Formula $\frac{1}{2S}$
+\end_inset
+
+ to the interval 
+\begin_inset Formula $\left[a,b\right]$
+\end_inset
+
+:
+\begin_inset Formula 
+\[
+\Phi\left(\frac{b-\frac{a+b}{2}}{\sigma_{UB}}\right)-\Phi\left(\frac{a-\frac{a+b}{2}}{\sigma_{UB}}\right)=\Phi\left(\frac{b-a}{2\sigma_{UB}}\right)-\Phi\left(\frac{a-b}{2\sigma_{UB}}\right)=\frac{1}{2S}.
+\]
+
+\end_inset
+
+Solving this for 
+\begin_inset Formula $\sigma_{UB}$
+\end_inset
+
+ yields 
+\begin_inset Formula 
+\[
+\sigma_{UB}=\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}
+\]
+
+\end_inset
+
+for 
+\begin_inset Formula $\Phi^{-1}\left(\cdot\right)$
+\end_inset
+
+ the inverse standard normal cdf.
+\end_layout
+
+\begin_layout Enumerate
+This then implies that the TV distance between the distribution 
+\begin_inset Formula $\mathcal{N}\left(\mu,\sigma_{UB}^{2}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{b^{*}}\left(X\right)$
+\end_inset
+
+ is at least 
+\begin_inset Formula $1-\frac{1}{S}$
+\end_inset
+
+.
+ This follows from letting 
+\begin_inset Formula $X$
+\end_inset
+
+ and 
+\begin_inset Formula $Y$
+\end_inset
+
+ denote the random variables that correspond to 
+\begin_inset Formula $\mathcal{N}\left(\mu,\sigma_{UB}^{2}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $c_{b^{*}}\left(X\right)$
+\end_inset
+
+ respectively and writing:
+\begin_inset Formula 
+\begin{align*}
+TV\left(X,Y\right) & =\sup_{A\in\mathcal{B}}\left|P\left[X\in A\right]-P\left[Y\in A\right]\right|\\
+ & \geq\left|P\left[X\in\left[a,b\right]\right]-P\left[Y\in\left[a,b\right]\right]\right|\\
+ & =P\left[Y\in\left[a,b\right]\right]-\frac{1}{2S}\\
+ & \geq1-\frac{1}{2S}-\frac{1}{2S}\\
+ & =1-\frac{1}{S}.
+\end{align*}
+
+\end_inset
+
+The TV distance must be at least as large for any normal distribution with
+ a larger standard deviation.
+ 
+\end_layout
+
+\end_deeper
+\begin_layout Remark
+Hence, 
+\begin_inset Formula 
+\begin{align*}
+\mathcal{S} & =\left[0,\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}\right]=\left[0,\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} -\min_{s}\left\{ \hat{\theta}_{s}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4S}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}\right].
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
