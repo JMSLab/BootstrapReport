@@ -1,13 +1,12 @@
 """ Test examples """
-import sys, os
-sys.path.append(os.path.abspath(os.path.join(os.path.dirname( __file__ ), '..')))
+import sys, os, re
+sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
 import timeit
 from BootstrapReport import ObjectOfInterest
-import numpy as np
 import pandas as pd
 
 def gamma_example():
-    indir = 'source/lib/BootstrapReport/examples'
+    indir = 'examples'
     df_rep = pd.read_csv(f'{indir}/gamma_replicates.csv')
     df_est = pd.read_csv(f'{indir}/gamma_estimate.csv')
     replicates = df_rep['replicate_value'].values
@@ -31,7 +30,7 @@ def gamma_example():
     print('Runtime for gamma example (in seconds): ', stop - start)
 
 def normal_example():
-    indir = 'source/lib/BootstrapReport/examples'
+    indir = 'examples'
     df_rep = pd.read_csv(f'{indir}/normal_replicates.csv')
     df_est = pd.read_csv(f'{indir}/normal_estimate.csv')
     replicates = df_rep['replicate_value'].values
