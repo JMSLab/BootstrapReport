@@ -193,7 +193,7 @@ def select_bandwidth(rot_se, max_grid, min_grid, num_gridpoints,
     
     return implied_normal_pdf, best_bandwidth, best_bandwidth_index, avg_tvd_list, expansion_count
 
-def plot_min_crossings(outfile, optimal_path, crossings, alpha, replicates, estimate, std, upper_cb, lower_cb, left_upper_cb):
+def plot_min_crossings(outfile, optimal_path, crossings, alpha, replicates, estimate, std, upper_cb, lower_cb, left_upper_cb, **kwargs):
     """ Create the plot for `get_crossings` of ObjectOfInterest
     :param outfile: destination for the plot
     :param optimal_path: nx2 numpy.array. First column contains x values, and second column contains y values of optimal path.
@@ -207,12 +207,18 @@ def plot_min_crossings(outfile, optimal_path, crossings, alpha, replicates, esti
     :param left_upper_cb: function that returns the left-handed limit of the difference between the upper confidence bound 
         and the cdf of the implied normal
     """
-    
+    plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'linecolor': '#f9665e', 'bandcolor': '#a8d9ed', 'linewidth': 2, 'dpi': 100}
+    for key, value in kwargs.items():
+        plt_set[key] = value
     mpl.rcParams['axes.spines.bottom'] = False
+    plt.rcParams.update({'font.size': plt_set['fontsize']})
+    plt.rcParams.update({'legend.fontsize': plt_set['legend_fontsize']})
+    plt.rcParams.update({'axes.labelsize': plt_set['labelsize']})
+    
     num_rep, x, y = len(replicates), optimal_path[-1, 0], optimal_path[-1, 1]
     plot_data = ('Num. crossings = %d' % crossings)
     props = dict(boxstyle = 'round, pad = 0.75, rounding_size = 0.3', facecolor = 'white', alpha = 0.7)
-    plt.plot(optimal_path[:, 0], optimal_path[:, 1], color = '#f9665e', label = 'Optimal path')
+    plt.plot(optimal_path[:, 0], optimal_path[:, 1], color = plt_set['linecolor'], label = 'Optimal path', linewidth = plt_set['linewidth'])
     
     zero_null_rej = stats.norm.ppf(np.sqrt(np.log(2/alpha)/(2 * num_rep)), loc = estimate, scale = std)
     if zero_null_rej < replicates[0]:
@@ -236,8 +242,8 @@ def plot_min_crossings(outfile, optimal_path, crossings, alpha, replicates, esti
     else:
         postline = np.array([[replicates[-1], optimal_path[-1, 1]], [end + 0.5 * std, 0], [end + std, 0]])
     
-    plt.plot(preline[:, 0], preline[:, 1], color = '#f9665e')
-    plt.plot(postline[:, 0], postline[:, 1], color = '#f9665e')
+    plt.plot(preline[:, 0], preline[:, 1], color = plt_set['linecolor'], linewidth = plt_set['linewidth'])
+    plt.plot(postline[:, 0], postline[:, 1], color = plt_set['linecolor'], linewidth = plt_set['linewidth'])
     x_axis = np.concatenate([np.linspace(replicates[r], replicates[r + 1], 10) for r in range(num_rep - 1)], axis = None)
     x_axis = np.append(np.linspace(preline[0, 0], replicates[0], 15), x_axis)
     x_axis = np.append(x_axis, np.linspace(replicates[-1], postline[-1, 0], 15))
@@ -250,10 +256,10 @@ def plot_min_crossings(outfile, optimal_path, crossings, alpha, replicates, esti
     plt.hlines(y = botbound, xmin = lbound, xmax  = replicates[0], color = 'k', lw = 2, linestyle = (1.5, (1.5, 1)))
     plt.hlines(y = botbound, xmin = replicates[0], xmax  = replicates[-1], color = 'k', lw = 2)
     plt.hlines(y = botbound, xmin = replicates[-1], xmax = rbound, color = 'k', lw = 2, linestyle = (1.5, (1.5, 1)))
-    plt.fill_between(x_axis, lower_band, upper_band, color = '#a8d9ed', label = 'Confidence band', alpha = 0.25)
+    plt.fill_between(x_axis, lower_band, upper_band, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.25)
     plt.legend(edgecolor = 'k', loc = 'upper left')
     plt.text(rbound - 0.04 * (rbound - lbound), botbound + 0.07 * (topbound - botbound), plot_data, 
-                fontsize = 13, verticalalignment = 'bottom', horizontalalignment='right', bbox = props)
-    plt.savefig(outfile, transparent = True, dpi = 100)
+                fontsize = plt_set['legend_fontsize'], verticalalignment = 'bottom', horizontalalignment='right', bbox = props)
+    plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
     plt.clf()
     mpl.rcParams.update(mpl.rcParamsDefault)

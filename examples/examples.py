@@ -21,6 +21,7 @@ def gamma_example():
     ex_object.pp_plot(outfile=False)
     ex_object.get_bias_corrected_tvd(num_sets = 2, detail = False)
     ex_object.density_plot(outfile = False)
+    ex_object.get_crossings(outfile = False)
     ex_object.get_tv_min()
     
     ### Vertical-distance-minimizing normal approximation to bootstrap replicates
@@ -45,6 +46,7 @@ def normal_example():
     ex_object.pp_plot(outfile=False)
     ex_object.get_bias_corrected_tvd(num_sets = 2, detail = False)
     ex_object.density_plot(outfile = False)
+    ex_object.get_crossings(outfile = False)
     
     ### Vertical-distance-minimizing normal approximation to bootstrap replicates
     ex_object.get_sk_min()
