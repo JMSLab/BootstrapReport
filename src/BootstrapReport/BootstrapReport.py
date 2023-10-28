@@ -102,7 +102,7 @@ class ObjectOfInterest(DiagnosticsMixin):
 
         return bias
     
-    def get_crossings(self, alpha = 0.05, outfile = None):
+    def get_crossings(self, alpha = 0.05, outfile = None, **kwargs):
         """ calculate minimum changes in direction consistent with difference in CDFs
         :param alpha: 1 - alpha = confidence level for confidence bands
         :param outfile: path to output figure displaying algorithm
@@ -163,7 +163,7 @@ class ObjectOfInterest(DiagnosticsMixin):
 
         if not outfile == None:
             helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, self.replicates, self.estimate,
-                                       self.se, upper_cb, lower_cb, left_upper_cb)
+                                       self.se, upper_cb, lower_cb, left_upper_cb, **kwargs)
 
     def pp_plot(self, confidence_band = True, alpha = 0.05, outfile=False, **kwargs):
         """ create the pp plot
@@ -172,7 +172,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         :param alpha: the upper bound for the probability that an ecdf plot of the normal
             approximation falls outside the shaded region
         """
-        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'pointsize': 7, 'pointcolor': '#f9665e', 'bandcolor': '#a8d9ed'}
+        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'pointsize': 7, 'pointcolor': '#f9665e', 'bandcolor': '#a8d9ed', 'dpi': 100}
         for key, value in kwargs.items():
             plt_set[key] = value
         num_replicates = len(self.replicates)
@@ -211,17 +211,20 @@ class ObjectOfInterest(DiagnosticsMixin):
         plt.xlim(-0.05, 1.05)
 
         if outfile:
-            plt.savefig(outfile, transparent = True, dpi = 100)
+            plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
         plt.clf()
         mpl.rcParams.update(mpl.rcParamsDefault)
             
             
-    def density_plot(self, bounds = None, bandwidth = None, outfile = False):
+    def density_plot(self, bounds = None, bandwidth = None, outfile = False, **kwargs):
         """ creates a smoothed density plot of replicates and shows the plot or outputs the result to outfile
         :param bounds: a tuple or list of the bounds of the density plot | Optional
         :param bandwidth: the bandwidth that the replicates are evaluated at when taking the kernel density estimate | Optional
         :param outfile: location of the file to be saved | Optional
         """
+        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'linecolor': '#f9665e', 'linewidth': 1, 'dpi': 100}
+        for key, value in kwargs.items():
+            plt_set[key] = value
         if not bandwidth:
             bandwidth = self.best_bandwidth_value
         if bounds != None:
@@ -234,19 +237,19 @@ class ObjectOfInterest(DiagnosticsMixin):
         xgrid = np.linspace(lbound, ubound, len(self.replicates) * 100)
         density = [pdf_from_kde(x) for x in xgrid]
 
-        plt.rcParams.update({'font.size': 18})
-        plt.rcParams.update({'legend.fontsize': 20})
-        plt.rcParams.update({'axes.labelsize': 28})
+        plt.rcParams.update({'font.size': plt_set['fontsize']})
+        plt.rcParams.update({'legend.fontsize': plt_set['legend_fontsize']})
+        plt.rcParams.update({'axes.labelsize': plt_set['labelsize']})
 
         plt.xlim(lbound, ubound)
         plt.xlabel('Value of object of interest')
         plt.ylabel('Density')
-        plt.plot(xgrid, density, linewidth = 1, color = '#f9665e')
+        plt.plot(xgrid, density, linewidth = plt_set['linewidth'], color = plt_set['linecolor'])
         plt.plot([self.replicates[0], self.replicates[-1]], [0.0001, 0.0001], '|k', markeredgewidth = 1, label = 'Range of bootstrap replicates')
         plt.legend(loc = 'best', fontsize = 'x-small', markerscale = 0.75)
         
         if outfile:
-            plt.savefig(outfile, transparent = True, dpi = 75)
+            plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
         plt.clf()
         mpl.rcParams.update(mpl.rcParamsDefault)
 
