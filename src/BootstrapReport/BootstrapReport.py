@@ -165,13 +165,16 @@ class ObjectOfInterest(DiagnosticsMixin):
             helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, self.replicates, self.estimate,
                                        self.se, upper_cb, lower_cb, left_upper_cb)
 
-    def pp_plot(self, confidence_band = True, alpha = 0.05, outfile=False):
+    def pp_plot(self, confidence_band = True, alpha = 0.05, outfile=False, **kwargs):
         """ create the pp plot
         :param confidence_band: Boolean value of whether to include the confidence band in the plot
         :param outfile: location and name of file to be saved
         :param alpha: the upper bound for the probability that an ecdf plot of the normal
             approximation falls outside the shaded region
         """
+        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'pointsize': 7, 'pointcolor': '#f9665e', 'bandcolor': '#a8d9ed'}
+        for key, value in kwargs.items():
+            plt_set[key] = value
         num_replicates = len(self.replicates)
 
         replicates_eval_normcdf = norm.cdf(self.replicates, self.estimate, self.se)
@@ -189,20 +192,20 @@ class ObjectOfInterest(DiagnosticsMixin):
              'Neg. distance = %.3f' % self.neg_dist))
         props = dict(boxstyle = 'round, pad = 0.75, rounding_size = 0.3', facecolor = 'white', alpha = 0.86)
         
-        plt.rcParams.update({'font.size': 18})
-        plt.rcParams.update({'legend.fontsize': 20})
-        plt.rcParams.update({'axes.labelsize': 28})
+        plt.rcParams.update({'font.size': plt_set['fontsize']})
+        plt.rcParams.update({'legend.fontsize': plt_set['legend_fontsize']})
+        plt.rcParams.update({'axes.labelsize': plt_set['labelsize']})
         
         plt.figure(figsize=(10, 10))
         if confidence_band == True:
-            plt.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = '#a8d9ed', label = 'Confidence band', alpha = 0.25)
-        plt.scatter(replicates_eval_normcdf, replicate_ecdf, s=7,
-                    c='#f9665e', label='Bootstrap replicates')
+            plt.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.25)
+        plt.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
+                    c = plt_set['pointcolor'], label='Bootstrap replicates')
         plt.xlabel("CDF of normal distribution")
         plt.ylabel("CDF of comparison distribution")
         plt.legend(edgecolor = 'k', loc = 'upper left')
         plt.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
-        plt.text(0.52, 0.02, plot_data, fontsize = 20, \
+        plt.text(0.52, 0.02, plot_data, fontsize = plt_set['legend_fontsize'], \
             verticalalignment = 'bottom', horizontalalignment='left', bbox = props)
         plt.ylim(-0.05, 1.05)
         plt.xlim(-0.05, 1.05)
