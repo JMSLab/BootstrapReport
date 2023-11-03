@@ -109,6 +109,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         :param outfile: path to output figure displaying algorithm
         """
         rep = self.replicates/self.se
+        est = self.estimate/self.se
         num_rep, crossings = len(rep), 0
         rep_ecdf = lambda x: (1/num_rep) * np.sum(rep <= x)
         if alpha > 2 * np.exp(-2 * num_rep * rep_ecdf(rep[0])**2):
