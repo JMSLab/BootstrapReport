@@ -118,8 +118,8 @@ class ObjectOfInterest(DiagnosticsMixin):
         
         dkw_bot = lambda x: np.maximum(rep_ecdf(x) - np.sqrt(np.log(2/alpha)/(2 * num_rep)), 0)
         dkw_top = lambda x: np.minimum(rep_ecdf(x) + np.sqrt(np.log(2/alpha)/(2 * num_rep)), 1)
-        lower_cb = lambda x: dkw_bot(x) - norm.cdf(x, loc = self.estimate/self.se, scale = 1)
-        upper_cb = lambda x: dkw_top(x) - norm.cdf(x, loc = self.estimate/self.se, scale = 1)
+        lower_cb = lambda x: dkw_bot(x) - norm.cdf(x, loc = est, scale = 1)
+        upper_cb = lambda x: dkw_top(x) - norm.cdf(x, loc = est, scale = 1)
         index_upper_over_1 = np.ceil(num_rep * (1 - np.sqrt(np.log(2/alpha)/(2 * num_rep))))
         def left_upper_cb(x):
             if x >= rep[int(index_upper_over_1 - 1)]:
@@ -142,7 +142,7 @@ class ObjectOfInterest(DiagnosticsMixin):
             x = rep[t]
             if y >= left_upper_cb(x):
                 if not outfile == None:
-                    hits_top = norm.ppf(dkw_top(rep[t - 1]) - y, loc = self.estimate/self.se, scale = 1)
+                    hits_top = norm.ppf(dkw_top(rep[t - 1]) - y, loc = est, scale = 1)
                     if hits_top < x:
                         optimal_path = np.append(optimal_path, [[hits_top, y]], axis = 0)
                         xgrid = np.linspace(hits_top, x, 20)[1:-1]
@@ -165,7 +165,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         self.crossings = crossings
 
         if not outfile == None:
-            helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, rep, self.estimate/self.se,
+            helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, rep, est,
                                        1, upper_cb, lower_cb, left_upper_cb, **kwargs)
 
     def pp_plot(self, confidence_band = True, alpha = 0.05, outfile=False, **kwargs):
