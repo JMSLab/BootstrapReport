@@ -103,8 +103,8 @@ class ObjectOfInterest(DiagnosticsMixin):
         return bias
     
     def get_crossings(self, alpha = 0.05, outfile = None, **kwargs):
-        """ calculate minimum changes in direction consistent with difference in CDFs. plot
-        is normalized to have standard deviation of 1.
+        """ calculate minimum changes in direction consistent with difference in CDFs. 
+        values are normalized by the standard error
         :param alpha: 1 - alpha = confidence level for confidence bands
         :param outfile: path to output figure displaying algorithm
         """
