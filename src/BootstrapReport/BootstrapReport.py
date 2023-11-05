@@ -103,23 +103,26 @@ class ObjectOfInterest(DiagnosticsMixin):
         return bias
     
     def get_crossings(self, alpha = 0.05, outfile = None, **kwargs):
-        """ calculate minimum changes in direction consistent with difference in CDFs
+        """ calculate minimum changes in direction consistent with difference in CDFs. 
+        values are normalized by the standard error
         :param alpha: 1 - alpha = confidence level for confidence bands
         :param outfile: path to output figure displaying algorithm
         """
-        num_rep, crossings = len(self.replicates), 0
-        rep_ecdf = lambda x: (1/num_rep) * np.sum(self.replicates <= x)
-        if alpha > 2 * np.exp(-2 * num_rep * rep_ecdf(self.replicates[0])**2):
+        rep = self.replicates/self.se
+        est = self.estimate/self.se
+        num_rep, crossings = len(rep), 0
+        rep_ecdf = lambda x: (1/num_rep) * np.sum(rep <= x)
+        if alpha > 2 * np.exp(-2 * num_rep * rep_ecdf(rep[0])**2):
             raise ValueError('The target value of alpha is too large for the number of replicates.\n' +
                              'Please choose a smaller alpha')
         
         dkw_bot = lambda x: np.maximum(rep_ecdf(x) - np.sqrt(np.log(2/alpha)/(2 * num_rep)), 0)
         dkw_top = lambda x: np.minimum(rep_ecdf(x) + np.sqrt(np.log(2/alpha)/(2 * num_rep)), 1)
-        lower_cb = lambda x: dkw_bot(x) - norm.cdf(x, loc = self.estimate, scale = self.se)
-        upper_cb = lambda x: dkw_top(x) - norm.cdf(x, loc = self.estimate, scale = self.se)
+        lower_cb = lambda x: dkw_bot(x) - norm.cdf(x, loc = est, scale = 1)
+        upper_cb = lambda x: dkw_top(x) - norm.cdf(x, loc = est, scale = 1)
         index_upper_over_1 = np.ceil(num_rep * (1 - np.sqrt(np.log(2/alpha)/(2 * num_rep))))
         def left_upper_cb(x):
-            if x >= self.replicates[int(index_upper_over_1 - 1)]:
+            if x >= rep[int(index_upper_over_1 - 1)]:
                 return upper_cb(x)
             else:
                 return upper_cb(x) - 1/num_rep
@@ -127,7 +130,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         optimal_path = np.empty((0, 2))
         marker, x, y = None, -np.inf, 0
 
-        x = self.replicates[0]
+        x = rep[0]
         if lower_cb(x) <= 0 and upper_cb(x) >= 0:
             y = y
         elif upper_cb(x) < 0:
@@ -136,10 +139,10 @@ class ObjectOfInterest(DiagnosticsMixin):
         optimal_path = np.append(optimal_path, [[x, y]], axis = 0)
 
         for t in range(1, num_rep):
-            x = self.replicates[t]
+            x = rep[t]
             if y >= left_upper_cb(x):
                 if not outfile == None:
-                    hits_top = norm.ppf(dkw_top(self.replicates[t - 1]) - y, loc = self.estimate, scale = self.se)
+                    hits_top = norm.ppf(dkw_top(rep[t - 1]) - y, loc = est, scale = 1)
                     if hits_top < x:
                         optimal_path = np.append(optimal_path, [[hits_top, y]], axis = 0)
                         xgrid = np.linspace(hits_top, x, 20)[1:-1]
@@ -162,8 +165,8 @@ class ObjectOfInterest(DiagnosticsMixin):
         self.crossings = crossings
 
         if not outfile == None:
-            helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, self.replicates, self.estimate,
-                                       self.se, upper_cb, lower_cb, left_upper_cb, **kwargs)
+            helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, rep, est,
+                                       1, upper_cb, lower_cb, left_upper_cb, **kwargs)
 
     def pp_plot(self, confidence_band = True, alpha = 0.05, outfile=False, **kwargs):
         """ create the pp plot
