@@ -107,12 +107,19 @@ BootstrapReport Methods
 \end_layout
 
 \begin_layout Abstract
-This note accompanies the package 
-\family typewriter
-BootstrapReport
-\family default
-.
+This note accompanies the package BootstrapReport.
  It lays out methods for the calculations in the package.
+ Notation follows Andrews and Shapiro (2023) except where stated.
+ For additional details on the package, see 
+\begin_inset CommandInset href
+LatexCommand href
+name "BootstrapReport"
+target "https://github.com/JMSLab/BootstrapReport"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section*
@@ -229,14 +236,14 @@ By default we set the domain of the minimization to
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{M}=\left[\min_{J}\left\{ \hat{\theta}_{j}\right\} ,\max_{J}\left\{ \hat{\theta}_{j}\right\} \right]$
+\begin_inset Formula $\mathcal{M}=\left[\min_{j}\left\{ \hat{\theta}_{j}\right\} ,\max_{j}\left\{ \hat{\theta}_{j}\right\} \right]$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{J}\left\{ \hat{\theta}_{j}\right\} -\min_{J}\left\{ \hat{\theta}_{j}\right\} }{\sqrt{2\pi}}\right]$
+\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} -\min_{j}\left\{ \hat{\theta}_{j}\right\} }{\sqrt{2\pi}}\right]$
 \end_inset
 
 
@@ -1031,14 +1038,14 @@ By default we set the domain of the minimization to
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{M}=\left[\min_{J}\left\{ \hat{\theta}_{j}\right\} ,\max_{J}\left\{ \hat{\theta}_{j}\right\} \right]$
+\begin_inset Formula $\mathcal{M}=\left[\min_{j}\left\{ \hat{\theta}_{j}\right\} ,\max_{j}\left\{ \hat{\theta}_{j}\right\} \right]$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{J}\left\{ \hat{\theta}_{j}\right\} -\min_{J}\left\{ \hat{\theta}_{j}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4J}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right]$
+\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} -\min_{j}\left\{ \hat{\theta}_{j}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4J}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right]$
 \end_inset
 
 , where 
@@ -1091,6 +1098,16 @@ References
 \end_layout
 
 \begin_layout Standard
+\noindent
+Andrews, Isaiah and Jesse M.
+ Shapiro.
+ 2023.
+ Bootstrap Diagnostics for Irregular Estimators.
+ Working Paper.
+\end_layout
+
+\begin_layout Standard
+\noindent
 Tsybakov, Alexandre B.
  2009.
  
@@ -1275,7 +1292,7 @@ We first find an interval
 
  probability mass.
  It turns out that 
-\begin_inset Formula $\left[a,b\right]=\left[\min_{J}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}},\max_{J}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}\right]$
+\begin_inset Formula $\left[a,b\right]=\left[\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}},\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}\right]$
 \end_inset
 
  satisfies this requirement, where 
@@ -1293,8 +1310,8 @@ We first find an interval
 :
 \begin_inset Formula 
 \begin{align*}
-\int_{\min_{J}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}}^{\max_{J}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}}\hat{f}_{\hat{\theta}}\left(x;b^{*}\right)dx & =\frac{1}{J}\sum_{j=1}^{J}\int_{\min_{J}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}}^{\max_{J}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}}\frac{1}{b^{*}}\phi\left(\frac{x-\hat{\theta}_{j}}{b^{*}}\right)dx\\
- & =\frac{1}{J}\sum_{j=1}^{J}\left\{ \Phi\left(\frac{\max_{J}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}-\hat{\theta}_{j}}{b^{*}}\right)-\Phi\left(\frac{\min_{J}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}-\hat{\theta}_{j}}{b^{*}}\right)\right\} \\
+\int_{\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}}^{\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}}\hat{f}_{\hat{\theta}}\left(x;b^{*}\right)dx & =\frac{1}{J}\sum_{j=1}^{J}\int_{\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}}^{\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}}\frac{1}{b^{*}}\phi\left(\frac{x-\hat{\theta}_{j}}{b^{*}}\right)dx\\
+ & =\frac{1}{J}\sum_{j=1}^{J}\left\{ \Phi\left(\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}-\hat{\theta}_{j}}{b^{*}}\right)-\Phi\left(\frac{\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}-\hat{\theta}_{j}}{b^{*}}\right)\right\} \\
  & \geq\frac{1}{J}\sum_{j=1}^{J}\left\{ \Phi\left(\frac{q_{1-\frac{1}{4J}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4J}}}{b^{*}}\right)\right\} \\
  & =\Phi\left(\frac{q_{1-\frac{1}{4J}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4J}}}{b^{*}}\right)\\
  & =1-\frac{1}{2J}.
@@ -1409,7 +1426,7 @@ The TV distance must be at least as large for any normal distribution with
 Hence, 
 \begin_inset Formula 
 \begin{align*}
-\mathcal{S} & =\left[0,\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right]=\left[0,\frac{\max_{J}\left\{ \hat{\theta}_{j}\right\} -\min_{J}\left\{ \hat{\theta}_{j}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4J}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right].
+\mathcal{S} & =\left[0,\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right]=\left[0,\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} -\min_{j}\left\{ \hat{\theta}_{j}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4J}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right].
 \end{align*}
 
 \end_inset
