@@ -107,12 +107,19 @@ BootstrapReport Methods
 \end_layout
 
 \begin_layout Abstract
-This note accompanies the package 
-\family typewriter
-BootstrapReport
-\family default
-.
+This note accompanies the package BootstrapReport.
  It lays out methods for the calculations in the package.
+ Notation follows Andrews and Shapiro (2023) except where stated.
+ For additional details on the package, see 
+\begin_inset CommandInset href
+LatexCommand href
+name "BootstrapReport"
+target "https://github.com/JMSLab/BootstrapReport"
+literal "false"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section*
@@ -121,11 +128,11 @@ SK-distance-minimizing normal approximation to bootstrap replicates
 
 \begin_layout Itemize
 We have 
-\begin_inset Formula $s\in\left\{ 1,...,S\right\} $
+\begin_inset Formula $j\in\left\{ 1,...,J\right\} $
 \end_inset
 
  bootstrap replicates 
-\begin_inset Formula $\hat{\theta}_{s}$
+\begin_inset Formula $\hat{\theta}_{j}$
 \end_inset
 
  of the estimator 
@@ -141,15 +148,15 @@ We have
 
 \begin_layout Itemize
 Let 
-\begin_inset Formula $\hat{\eta}=\frac{1}{S}\sum_{s}\delta_{\hat{\theta}_{s}}\in\Delta\left(\Theta\right)$
+\begin_inset Formula $\hat{\eta}=\frac{1}{J}\sum_{J}\delta_{\hat{\theta}_{j}}\in\Delta\left(\Theta\right)$
 \end_inset
 
  be the distribution of the replicates, with 
-\begin_inset Formula $\delta_{\hat{\theta}_{s}}$
+\begin_inset Formula $\delta_{\hat{\theta}_{j}}$
 \end_inset
 
  the Dirac mass at 
-\begin_inset Formula $\hat{\theta}_{s}$
+\begin_inset Formula $\hat{\theta}_{j}$
 \end_inset
 
 .
@@ -158,7 +165,7 @@ Let
 \begin_deeper
 \begin_layout Itemize
 Define the empirical distribution function 
-\begin_inset Formula $\hat{F}_{\hat{\eta}}\left(\cdot\right)=\frac{1}{S}\sum_{S}I\left(\cdot\leq\hat{\theta}_{s}\right)$
+\begin_inset Formula $\hat{F}_{\hat{\eta}}\left(\cdot\right)=\frac{1}{J}\sum_{J}I\left(\cdot\leq\hat{\theta}_{j}\right)$
 \end_inset
 
 
@@ -189,8 +196,8 @@ Let
 Let
 \begin_inset Formula 
 \begin{align*}
-SK^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right) & =\max_{s\in\left\{ 1,...,S\right\} }\left\{ \hat{F}_{\eta}\left(\hat{\theta}_{s}\right)-\Phi\left(\hat{\theta}_{s};\mu,\sigma^{2}\right)\right\} \\
-SK^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right) & =\max_{s\in\left\{ 1,...,S\right\} }\left\{ -\left(\hat{F}_{\eta}\left(\hat{\theta}_{s}\right)-\Phi\left(\hat{\theta}_{s};\mu,\sigma^{2}\right)-\frac{1}{S}\right)\right\} 
+SK^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right) & =\max_{j\in\left\{ 1,...,J\right\} }\left\{ \hat{F}_{\eta}\left(\hat{\theta}_{j}\right)-\Phi\left(\hat{\theta}_{j};\mu,\sigma^{2}\right)\right\} \\
+SK^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right) & =\max_{j\in\left\{ 1,...,J\right\} }\left\{ -\left(\hat{F}_{\eta}\left(\hat{\theta}_{j}\right)-\Phi\left(\hat{\theta}_{j};\mu,\sigma^{2}\right)-\frac{1}{J}\right)\right\} 
 \end{align*}
 
 \end_inset
@@ -206,7 +213,7 @@ and let
 Calculate 
 \begin_inset Formula 
 \[
-\left(\mu^{*},\sigma^{*2}\right)=\argmin_{\left(\mu,\sigma^{2}\right)\in\mathbb{\mathcal{M}}\times\mathcal{S}}SK\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)
+\left(\mu^{*},\sigma^{*2}\right)=\argmin_{\left(\mu,\sigma^{2}\right)\in\mathbb{\mathcal{M}}\times\mathcal{J}}SK\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)
 \]
 
 \end_inset
@@ -229,14 +236,14 @@ By default we set the domain of the minimization to
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{M}=\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} ,\max_{s}\left\{ \hat{\theta}_{s}\right\} \right]$
+\begin_inset Formula $\mathcal{M}=\left[\min_{j}\left\{ \hat{\theta}_{j}\right\} ,\max_{j}\left\{ \hat{\theta}_{j}\right\} \right]$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} -\min_{s}\left\{ \hat{\theta}_{s}\right\} }{\sqrt{2\pi}}\right]$
+\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} -\min_{j}\left\{ \hat{\theta}_{j}\right\} }{\sqrt{2\pi}}\right]$
 \end_inset
 
 
@@ -250,7 +257,7 @@ P-P plot comparing bootstrap replicates to normal distribution
 
 \begin_layout Itemize
 We plot 
-\begin_inset Formula $\left\{ \Phi\left(\hat{\theta}_{s};\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right),\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{s}\right)\right\} _{s=1}^{S}$
+\begin_inset Formula $\left\{ \Phi\left(\hat{\theta}_{j};\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right),\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{j}\right)\right\} _{j=1}^{J}$
 \end_inset
 
 
@@ -267,7 +274,7 @@ literal "false"
 \end_inset
 
  confidence band, 
-\begin_inset Formula $\left\{ x,x\pm\sqrt{\frac{\ln\left(2/\alpha\right)}{2S}}\right\} _{x\in\left[0,1\right]}$
+\begin_inset Formula $\left\{ x,x\pm\sqrt{\frac{\ln\left(2/\alpha\right)}{2J}}\right\} _{x\in\left[0,1\right]}$
 \end_inset
 
 
@@ -297,14 +304,14 @@ Define the lower and upper confidence bounds for the difference in CDFs:
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{-}\left(x\right)=\max\left\{ \hat{F}_{\hat{\eta}}\left(x\right)-\sqrt{\frac{\ln\left(2/\alpha\right)}{2S}},0\right\} -\Phi\left(x;\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{-}\left(x\right)=\max\left\{ \hat{F}_{\hat{\eta}}\left(x\right)-\sqrt{\frac{\ln\left(2/\alpha\right)}{2J}},0\right\} -\Phi\left(x;\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{+}\left(x\right)=\min\left\{ \hat{F}_{\hat{\eta}}\left(x\right)+\sqrt{\frac{\ln\left(2/\alpha\right)}{2S}},1\right\} -\Phi\left(x;\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
+\begin_inset Formula $\hat{SK}_{\hat{\theta}}^{+}\left(x\right)=\min\left\{ \hat{F}_{\hat{\eta}}\left(x\right)+\sqrt{\frac{\ln\left(2/\alpha\right)}{2J}},1\right\} -\Phi\left(x;\hat{\theta},\hat{\sigma}_{\hat{\theta}}^{2}\right)$
 \end_inset
 
 
@@ -313,7 +320,7 @@ Define the lower and upper confidence bounds for the difference in CDFs:
 \end_deeper
 \begin_layout Itemize
 Define a coordinate path 
-\begin_inset Formula $\left\{ x_{t},y_{t},\tau_{t},m_{t}\right\} _{t\in\left\{ 0,...,S+1\right\} }$
+\begin_inset Formula $\left\{ x_{t},y_{t},\tau_{t},m_{t}\right\} _{t\in\left\{ 0,...,J+1\right\} }$
 \end_inset
 
  such that
@@ -363,7 +370,7 @@ To ensure that
 \end_inset
 
  at the start of the test, assert 
-\begin_inset Formula $\alpha\leq2e^{-2S\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)^{2}}$
+\begin_inset Formula $\alpha\leq2e^{-2J\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)^{2}}$
 \end_inset
 
 :
@@ -371,14 +378,14 @@ To ensure that
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $\Rightarrow\frac{2}{\alpha}\geq e^{2S\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)^{2}}$
+\begin_inset Formula $\Rightarrow\frac{2}{\alpha}\geq e^{2J\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)^{2}}$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\Rightarrow\hat{SK}_{\hat{\theta}}^{-}(\hat{\theta}_{1})\leq\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)-\sqrt{\frac{\log\left(\frac{2}{\alpha}\right)}{2S}}\leq0$
+\begin_inset Formula $\Rightarrow\hat{SK}_{\hat{\theta}}^{-}(\hat{\theta}_{1})\leq\hat{F}_{\hat{\eta}}\left(\hat{\theta}_{1}\right)-\sqrt{\frac{\log\left(\frac{2}{\alpha}\right)}{2J}}\leq0$
 \end_inset
 
 
@@ -433,7 +440,7 @@ If
 \end_inset
 
 , set 
-\begin_inset Formula $y_{1}=\hat{SK}_{\hat{\theta}}^{+}(x_{1})-\frac{1}{S}$
+\begin_inset Formula $y_{1}=\hat{SK}_{\hat{\theta}}^{+}(x_{1})-\frac{1}{J}$
 \end_inset
 
  and 
@@ -451,7 +458,7 @@ Set
 
 .
  For 
-\begin_inset Formula $t\in\left\{ 1,\dots,S-1\right\} $
+\begin_inset Formula $t\in\left\{ 1,\dots,J-1\right\} $
 \end_inset
 
 
@@ -460,11 +467,11 @@ Set
 \begin_deeper
 \begin_layout Enumerate
 If 
-\begin_inset Formula $y_{t}\geq\hat{SK}_{\hat{\theta}}^{+}(x_{t+1})-\frac{1}{S}$
+\begin_inset Formula $y_{t}\geq\hat{SK}_{\hat{\theta}}^{+}(x_{t+1})-\frac{1}{J}$
 \end_inset
 
 , set 
-\begin_inset Formula $y_{t+1}=\hat{SK}_{\hat{\theta}}^{+}(x_{t+1})-\frac{1}{S}$
+\begin_inset Formula $y_{t+1}=\hat{SK}_{\hat{\theta}}^{+}(x_{t+1})-\frac{1}{J}$
 \end_inset
 
  and 
@@ -543,11 +550,11 @@ Else, let
 \end_deeper
 \begin_layout Enumerate
 Set 
-\begin_inset Formula $y_{S+1}=0$
+\begin_inset Formula $y_{J+1}=0$
 \end_inset
 
  and 
-\begin_inset Formula $x_{S+1}=\infty$
+\begin_inset Formula $x_{J+1}=\infty$
 \end_inset
 
 
@@ -556,23 +563,23 @@ Set
 \begin_deeper
 \begin_layout Enumerate
 If 
-\begin_inset Formula $m_{S}=-$
+\begin_inset Formula $m_{J}=-$
 \end_inset
 
  and 
-\begin_inset Formula $y_{S}<0$
+\begin_inset Formula $y_{J}<0$
 \end_inset
 
  or 
-\begin_inset Formula $m_{S}=+$
+\begin_inset Formula $m_{J}=+$
 \end_inset
 
  and 
-\begin_inset Formula $y_{S}>0$
+\begin_inset Formula $y_{J}>0$
 \end_inset
 
  , then let 
-\begin_inset Formula $\tau_{S}=\tau_{S-1}+1$
+\begin_inset Formula $\tau_{J}=\tau_{J-1}+1$
 \end_inset
 
 
@@ -581,7 +588,7 @@ If
 \end_deeper
 \begin_layout Enumerate
 Return 
-\begin_inset Formula $\tau_{S}$
+\begin_inset Formula $\tau_{J}$
 \end_inset
 
 .
@@ -638,7 +645,7 @@ For each
 \begin_deeper
 \begin_layout Itemize
 For each 
-\begin_inset Formula $s\in\left\{ 1,...,2S\right\} $
+\begin_inset Formula $j\in\left\{ 1,...,2J\right\} $
 \end_inset
 
 :
@@ -647,11 +654,11 @@ For each
 \begin_deeper
 \begin_layout Itemize
 Draw 
-\begin_inset Formula $S$
+\begin_inset Formula $J$
 \end_inset
 
  values 
-\begin_inset Formula $X_{1,r},...,X_{S,r}$
+\begin_inset Formula $X_{1,r},...,X_{J,r}$
 \end_inset
 
  i.i.d.
@@ -664,7 +671,7 @@ Draw
 
 \begin_layout Itemize
 Define the empirical distribution of the 
-\begin_inset Formula $S$
+\begin_inset Formula $J$
 \end_inset
 
  draws as 
@@ -799,7 +806,7 @@ Otherwise we stop
 \end_deeper
 \begin_layout Itemize
 Let 
-\begin_inset Formula $T_{b^{*}}^{*}=\frac{1}{S}\sum_{s=S+1}^{2S}T_{b^{*},s}$
+\begin_inset Formula $T_{b^{*}}^{*}=\frac{1}{J}\sum_{j=J+1}^{2J}T_{b^{*},j}$
 \end_inset
 
 
@@ -853,7 +860,7 @@ Note also that if we calculate
 \end_inset
 
  and some 
-\begin_inset Formula $S$
+\begin_inset Formula $J$
 \end_inset
 
  replicates, the same 
@@ -869,7 +876,7 @@ Note also that if we calculate
 \end_inset
 
  for which we have 
-\begin_inset Formula $S$
+\begin_inset Formula $J$
 \end_inset
 
  replicates.
@@ -882,7 +889,7 @@ Calculate
 \end_inset
 
  as our bias-corrected estimate of the TV distance of the replicates 
-\begin_inset Formula $\hat{\theta}_{s}$
+\begin_inset Formula $\hat{\theta}_{j}$
 \end_inset
 
  from the normal 
@@ -903,7 +910,7 @@ If
 \end_inset
 
 , we throw a warning suggesting to use a higher value of 
-\begin_inset Formula $S$
+\begin_inset Formula $J$
 \end_inset
 
 .
@@ -1031,14 +1038,14 @@ By default we set the domain of the minimization to
 
 \begin_deeper
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{M}=\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} ,\max_{s}\left\{ \hat{\theta}_{s}\right\} \right]$
+\begin_inset Formula $\mathcal{M}=\left[\min_{j}\left\{ \hat{\theta}_{j}\right\} ,\max_{j}\left\{ \hat{\theta}_{j}\right\} \right]$
 \end_inset
 
 
 \end_layout
 
 \begin_layout Itemize
-\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} -\min_{s}\left\{ \hat{\theta}_{s}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4S}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}\right]$
+\begin_inset Formula $\mathcal{S}=\left[0,\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} -\min_{j}\left\{ \hat{\theta}_{j}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4J}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right]$
 \end_inset
 
 , where 
@@ -1064,7 +1071,7 @@ We plot the density
 \end_inset
 
  of the 
-\begin_inset Formula $S$
+\begin_inset Formula $J$
 \end_inset
 
  draws with the bias-minimizing choice of bandwidth 
@@ -1077,7 +1084,7 @@ We plot the density
 \begin_deeper
 \begin_layout Itemize
 The default plotting range is 
-\begin_inset Formula $\left[\hat{\theta}_{1}-2b^{*},\hat{\theta}_{S}+2b^{*}\right]$
+\begin_inset Formula $\left[\hat{\theta}_{1}-2b^{*},\hat{\theta}_{J}+2b^{*}\right]$
 \end_inset
 
 
@@ -1091,6 +1098,16 @@ References
 \end_layout
 
 \begin_layout Standard
+\noindent
+Andrews, Isaiah and Jesse M.
+ Shapiro.
+ 2023.
+ Bootstrap Diagnostics for Irregular Estimators.
+ Working Paper.
+\end_layout
+
+\begin_layout Standard
+\noindent
 Tsybakov, Alexandre B.
  2009.
  
@@ -1231,7 +1248,7 @@ A useful question to answer is what are choices of
 \end_inset
 
  is 
-\begin_inset Formula $\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} ,\max_{s}\left\{ \hat{\theta}_{s}\right\} \right]$
+\begin_inset Formula $\left[\min_{J}\left\{ \hat{\theta}_{j}\right\} ,\max_{J}\left\{ \hat{\theta}_{j}\right\} \right]$
 \end_inset
 
 .
@@ -1242,16 +1259,16 @@ A useful question to answer is what are choices of
 , we first find an upperbound on the TV distance itself.
  For this, we characterize the distributions by their pdfs, and we then
  have that for any 
-\begin_inset Formula $s'\in\left\{ 1,...,S\right\} $
+\begin_inset Formula $j'\in\left\{ 1,...,J\right\} $
 \end_inset
 
 ,
 \begin_inset Formula 
 \begin{align*}
-\min_{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{+}}TV\left(\hat{f}_{\hat{\theta}}\left(\cdot;b^{*}\right),\frac{1}{\sigma}\phi\left(\frac{\cdot-\mu}{\sigma}\right)\right) & =\min_{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{+}}TV\left(\frac{1}{Sb^{*}}\sum_{s=1}^{S}\phi\left(\frac{\cdot-\hat{\theta}_{s}}{b^{*}}\right),\frac{1}{\sigma}\phi\left(\frac{\cdot-\mu}{\sigma}\right)\right)\\
- & \leq TV\left(\frac{1}{Sb^{*}}\sum_{s=1}^{S}\phi\left(\frac{\cdot-\hat{\theta}_{s}}{b^{*}}\right),\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{s'}}{b^{*}}\right)\right)\\
- & \leq\frac{1}{S}\sum_{s=1}^{S}TV\left(\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{s}}{b^{*}}\right),\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{s'}}{b^{*}}\right)\right)\\
- & \leq1-\frac{1}{S}.
+\min_{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{+}}TV\left(\hat{f}_{\hat{\theta}}\left(\cdot;b^{*}\right),\frac{1}{\sigma}\phi\left(\frac{\cdot-\mu}{\sigma}\right)\right) & =\min_{\left(\mu,\sigma\right)\in\mathbb{R}\times\mathbb{R}_{+}}TV\left(\frac{1}{Jb^{*}}\sum_{j=1}^{J}\phi\left(\frac{\cdot-\hat{\theta}_{j}}{b^{*}}\right),\frac{1}{\sigma}\phi\left(\frac{\cdot-\mu}{\sigma}\right)\right)\\
+ & \leq TV\left(\frac{1}{Jb^{*}}\sum_{j=1}^{J}\phi\left(\frac{\cdot-\hat{\theta}_{j}}{b^{*}}\right),\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{j'}}{b^{*}}\right)\right)\\
+ & \leq\frac{1}{J}\sum_{j=1}^{J}TV\left(\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{j}}{b^{*}}\right),\frac{1}{b^{*}}\phi\left(\frac{\cdot-\hat{\theta}_{j'}}{b^{*}}\right)\right)\\
+ & \leq1-\frac{1}{J}.
 \end{align*}
 
 \end_inset
@@ -1270,12 +1287,12 @@ We first find an interval
 \end_inset
 
  assigns at least 
-\begin_inset Formula $1-\frac{1}{2S}$
+\begin_inset Formula $1-\frac{1}{2J}$
 \end_inset
 
  probability mass.
  It turns out that 
-\begin_inset Formula $\left[a,b\right]=\left[\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}},\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}\right]$
+\begin_inset Formula $\left[a,b\right]=\left[\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}},\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}\right]$
 \end_inset
 
  satisfies this requirement, where 
@@ -1293,11 +1310,11 @@ We first find an interval
 :
 \begin_inset Formula 
 \begin{align*}
-\int_{\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}}}^{\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}}\hat{f}_{\hat{\theta}}\left(x;b^{*}\right)dx & =\frac{1}{S}\sum_{r=1}^{S}\int_{\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}}}^{\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}}\frac{1}{b^{*}}\phi\left(\frac{x-\hat{\theta}_{s}}{b^{*}}\right)dx\\
- & =\frac{1}{S}\sum_{s=1}^{S}\left\{ \Phi\left(\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} +q_{1-\frac{1}{4S}}-\hat{\theta}_{s}}{b^{*}}\right)-\Phi\left(\frac{\min_{s}\left\{ \hat{\theta}_{s}\right\} -q_{1-\frac{1}{4S}}-\hat{\theta}_{s}}{b^{*}}\right)\right\} \\
- & \geq\frac{1}{S}\sum_{s=1}^{S}\left\{ \Phi\left(\frac{q_{1-\frac{1}{4S}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4S}}}{b^{*}}\right)\right\} \\
- & =\Phi\left(\frac{q_{1-\frac{1}{4S}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4S}}}{b^{*}}\right)\\
- & =1-\frac{1}{2S}.
+\int_{\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}}^{\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}}\hat{f}_{\hat{\theta}}\left(x;b^{*}\right)dx & =\frac{1}{J}\sum_{j=1}^{J}\int_{\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}}^{\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}}\frac{1}{b^{*}}\phi\left(\frac{x-\hat{\theta}_{j}}{b^{*}}\right)dx\\
+ & =\frac{1}{J}\sum_{j=1}^{J}\left\{ \Phi\left(\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} +q_{1-\frac{1}{4J}}-\hat{\theta}_{j}}{b^{*}}\right)-\Phi\left(\frac{\min_{j}\left\{ \hat{\theta}_{j}\right\} -q_{1-\frac{1}{4J}}-\hat{\theta}_{j}}{b^{*}}\right)\right\} \\
+ & \geq\frac{1}{J}\sum_{j=1}^{J}\left\{ \Phi\left(\frac{q_{1-\frac{1}{4J}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4J}}}{b^{*}}\right)\right\} \\
+ & =\Phi\left(\frac{q_{1-\frac{1}{4J}}}{b^{*}}\right)-\Phi\left(\frac{-q_{1-\frac{1}{4J}}}{b^{*}}\right)\\
+ & =1-\frac{1}{2J}.
 \end{align*}
 
 \end_inset
@@ -1323,7 +1340,7 @@ Next, we can set
 \end_inset
 
  assigns mass 
-\begin_inset Formula $\frac{1}{2S}$
+\begin_inset Formula $\frac{1}{2J}$
 \end_inset
 
  to the interval 
@@ -1333,7 +1350,7 @@ Next, we can set
 :
 \begin_inset Formula 
 \[
-\Phi\left(\frac{b-\frac{a+b}{2}}{\sigma_{UB}}\right)-\Phi\left(\frac{a-\frac{a+b}{2}}{\sigma_{UB}}\right)=\Phi\left(\frac{b-a}{2\sigma_{UB}}\right)-\Phi\left(\frac{a-b}{2\sigma_{UB}}\right)=\frac{1}{2S}.
+\Phi\left(\frac{b-\frac{a+b}{2}}{\sigma_{UB}}\right)-\Phi\left(\frac{a-\frac{a+b}{2}}{\sigma_{UB}}\right)=\Phi\left(\frac{b-a}{2\sigma_{UB}}\right)-\Phi\left(\frac{a-b}{2\sigma_{UB}}\right)=\frac{1}{2J}.
 \]
 
 \end_inset
@@ -1345,7 +1362,7 @@ Solving this for
  yields 
 \begin_inset Formula 
 \[
-\sigma_{UB}=\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}
+\sigma_{UB}=\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}
 \]
 
 \end_inset
@@ -1367,7 +1384,7 @@ This then implies that the TV distance between the distribution
 \end_inset
 
  is at least 
-\begin_inset Formula $1-\frac{1}{S}$
+\begin_inset Formula $1-\frac{1}{J}$
 \end_inset
 
 .
@@ -1392,9 +1409,9 @@ This then implies that the TV distance between the distribution
 \begin{align*}
 TV\left(X,Y\right) & =\sup_{A\in\mathcal{B}}\left|P\left[X\in A\right]-P\left[Y\in A\right]\right|\\
  & \geq\left|P\left[X\in\left[a,b\right]\right]-P\left[Y\in\left[a,b\right]\right]\right|\\
- & =P\left[Y\in\left[a,b\right]\right]-\frac{1}{2S}\\
- & \geq1-\frac{1}{2S}-\frac{1}{2S}\\
- & =1-\frac{1}{S}.
+ & =P\left[Y\in\left[a,b\right]\right]-\frac{1}{2J}\\
+ & \geq1-\frac{1}{2J}-\frac{1}{2J}\\
+ & =1-\frac{1}{J}.
 \end{align*}
 
 \end_inset
@@ -1409,7 +1426,7 @@ The TV distance must be at least as large for any normal distribution with
 Hence, 
 \begin_inset Formula 
 \begin{align*}
-\mathcal{S} & =\left[0,\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}\right]=\left[0,\frac{\max_{s}\left\{ \hat{\theta}_{s}\right\} -\min_{s}\left\{ \hat{\theta}_{s}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4S}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4S}\right)}\right].
+\mathcal{S} & =\left[0,\frac{b-a}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right]=\left[0,\frac{\max_{j}\left\{ \hat{\theta}_{j}\right\} -\min_{j}\left\{ \hat{\theta}_{j}\right\} +2b^{*}\Phi^{-1}\left(1-\frac{1}{4J}\right)}{2\Phi^{-1}\left(\frac{1}{2}+\frac{1}{4J}\right)}\right].
 \end{align*}
 
 \end_inset
