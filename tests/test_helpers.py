@@ -5,7 +5,7 @@ from math import log10, floor
 import numpy as np
 from scipy import integrate
 from scipy.stats import norm, uniform
-import BootstrapReport.helpers
+import helpers
 
 
 def round_to_2(x, sig=2):

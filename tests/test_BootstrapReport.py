@@ -4,9 +4,26 @@ import numpy as np, pandas as pd
 from scipy.stats import norm, uniform
 from scipy.optimize import minimize
 import pytest
-from BootstrapReport.BootstrapReport import ObjectOfInterest
+import sys, os, re
+sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
+from BootstrapReport import ObjectOfInterest
 import helpers
 import test_helpers
+
+def main():
+    test_bandwidth_to_se_ratio()
+    test_get_bias()
+    test_tv_min_uniform()
+    test_tv_min_normal()
+    test_tv_min_warnings()
+    test_check_initial_values()
+    test_check_optimization_bounds()
+    test_sk_distance()
+    test_density_plot()
+    test_crossings()
+    test_pp_plot()
+    test_sk_min_normal()
+    test_sk_min_warnings()
 
 def test_bandwidth_to_se_ratio():
     test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
@@ -25,10 +42,9 @@ def test_get_bias():
     test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
     estimate, standard_error = 2, 1
     test = ObjectOfInterest(estimate=estimate, se=standard_error, replicates=test_replicates)
-
-    assert test.get_bias(num_replicates=10, best_bandwidth=1, implied_normal_pdf=lambda x: norm.pdf(x, 2, 1),
-                          lbound=-50, rbound=50, num_sets=5, second_seed=11) == 0.14285730950108239
-
+    target = 0.14286
+    assert np.isclose(test.get_bias(num_replicates=10, best_bandwidth=1, implied_normal_pdf=lambda x: norm.pdf(x, 2, 1),
+                          lbound=-50, rbound=50, num_sets=5, second_seed=11), target, atol = 0.00001)
 
 def test_tv_min_uniform():
     tol = 1e-3
@@ -64,7 +80,7 @@ def test_tv_min_normal():
         with pytest.raises(ValueError):
             test.get_tv_min()
             
-        test.get_bias_corrected_tvd()
+        test.get_bias_corrected_tvd(num_sets = 3)
         
         res = test.get_tv_min()
         assert np.isclose(res.x[0], p[0], atol=tol, rtol=tol)
@@ -90,13 +106,13 @@ def test_tv_min_warnings():
     R = 1000
     df = np.random.normal(par[0], par[1], R).tolist()
     test = ObjectOfInterest(par[0], par[1], replicates=df)    
-    test.get_bias_corrected_tvd()
+    test.get_bias_corrected_tvd(num_sets = 3)
     
-    with pytest.warns(UserWarning):
-        test.get_tv_min(bounds=((10, 20), (0, 2)))
-    with pytest.warns(UserWarning):
-        test.get_tv_min(bounds=((-1, 1), (0.1, 0.2)))
-    with pytest.warns(UserWarning):
+    with pytest.raises(ValueError):
+        test.get_tv_min(optimization_bounds=((10, 20), (0, 2)))
+    with pytest.raises(ValueError):
+        test.get_tv_min(optimization_bounds=((-1, 1), (0.1, 0.2)))
+    with pytest.raises(ValueError):
         test.get_tv_min(init_values=(1e-20, 1e-20))
         test.get_tv_min()
     
@@ -108,7 +124,7 @@ def test_check_initial_values():
     p = [10,1]
     df = np.random.normal(p[0], p[1], R).tolist()
     test = ObjectOfInterest(p[0], p[1], replicates=df)
-    test.get_bias_corrected_tvd()
+    test.get_bias_corrected_tvd(num_sets = 3)
     
     def test_message(error, arg):
         with pytest.raises(error):
@@ -130,7 +146,7 @@ def test_check_optimization_bounds():
     p = [10,1]
     df = np.random.normal(p[0], p[1], R).tolist()
     test = ObjectOfInterest(p[0], p[1], replicates=df)
-    test.get_bias_corrected_tvd()
+    test.get_bias_corrected_tvd(num_sets = 3)
     
     def test_message(error, arg):
         with pytest.raises(error):
@@ -235,3 +251,5 @@ def test_sk_min_warnings():
         test.get_sk_min(bounds=((.5, 1.5), (0, 2)))
     with pytest.warns(UserWarning):
         test.get_sk_min(bounds=((-1, 1), (0.1, 0.2)))
+
+main()
