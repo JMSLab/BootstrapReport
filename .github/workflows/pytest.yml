@@ -34,6 +34,7 @@ jobs:
         pip install scipy
         pip install numpy
         pip install pandas
+        pip install seaborn
     - name: Test with pytest
       run: |
         python -m pytest
