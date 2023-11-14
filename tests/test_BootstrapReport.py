@@ -233,5 +233,3 @@ def test_sk_min_warnings():
         test.get_sk_min(bounds=((.5, 1.5), (0, 2)))
     with pytest.warns(UserWarning):
         test.get_sk_min(bounds=((-1, 1), (0.1, 0.2)))
-
-main()
