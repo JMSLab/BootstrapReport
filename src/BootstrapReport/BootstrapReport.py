@@ -208,7 +208,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         plt.ylabel("CDF of bootstrap distribution")
         plt.legend(edgecolor = 'k', loc = 'upper left')
         plt.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
-        plt.text(0.52, 0.02, plot_data, fontsize = plt_set['legend_fontsize'], \
+        plt.text(0.52, 0.06, plot_data, fontsize = plt_set['legend_fontsize'], \
             verticalalignment = 'bottom', horizontalalignment='left', bbox = props)
         plt.ylim(0, 1)
         plt.xlim(0, 1)
