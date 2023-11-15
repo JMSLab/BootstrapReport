@@ -9,7 +9,7 @@ packages = ["BootstrapReport"]
 name = "BootstrapReport"
 version = "0.0.1" 
 authors = [
-    {name = "Jesse Shapiro", email = "jesse shapiro@fas.harvard.edu"},
+    {name = "Jesse Shapiro", email = "jesse_shapiro@fas.harvard.edu"},
     {name = "Isaiah Andrews", email = "iandrews@mit.edu"}
 ]
 description = "A package for checking normality when using bootstraps"
