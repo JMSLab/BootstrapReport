@@ -168,7 +168,7 @@ class ObjectOfInterest(DiagnosticsMixin):
             helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, rep, est,
                                        1, upper_cb, lower_cb, left_upper_cb, **kwargs)
 
-    def pp_plot(self, confidence_band = True, alpha = 0.05, outfile=False, **kwargs):
+    def pp_plot(self, confidence_band = True, alpha = 0.05, outfile = None, **kwargs):
         """ create the pp plot
         :param confidence_band: Boolean value of whether to include the confidence band in the plot
         :param outfile: location and name of file to be saved
@@ -201,25 +201,25 @@ class ObjectOfInterest(DiagnosticsMixin):
         
         plt.figure(figsize=(10, 10))
         if confidence_band == True:
-            plt.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.25)
+            plt.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.35)
         plt.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
                     c = plt_set['pointcolor'], label='Bootstrap replicates')
         plt.xlabel("CDF of normal distribution")
-        plt.ylabel("CDF of comparison distribution")
+        plt.ylabel("CDF of bootstrap distribution")
         plt.legend(edgecolor = 'k', loc = 'upper left')
         plt.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
         plt.text(0.52, 0.02, plot_data, fontsize = plt_set['legend_fontsize'], \
             verticalalignment = 'bottom', horizontalalignment='left', bbox = props)
-        plt.ylim(-0.05, 1.05)
-        plt.xlim(-0.05, 1.05)
+        plt.ylim(0, 1)
+        plt.xlim(0, 1)
 
-        if outfile:
+        if not outfile == None:
             plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
         plt.clf()
         mpl.rcParams.update(mpl.rcParamsDefault)
             
             
-    def density_plot(self, bounds = None, bandwidth = None, outfile = False, **kwargs):
+    def density_plot(self, bounds = None, bandwidth = None, outfile = None, **kwargs):
         """ creates a smoothed density plot of replicates and shows the plot or outputs the result to outfile
         :param bounds: a tuple or list of the bounds of the density plot | Optional
         :param bandwidth: the bandwidth that the replicates are evaluated at when taking the kernel density estimate | Optional
@@ -251,7 +251,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         plt.plot([self.replicates[0], self.replicates[-1]], [0.0001, 0.0001], '|k', markeredgewidth = 1, label = 'Range of bootstrap replicates')
         plt.legend(loc = 'best', fontsize = 'x-small', markerscale = 0.75)
         
-        if outfile:
+        if not outfile == None:
             plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
         plt.clf()
         mpl.rcParams.update(mpl.rcParamsDefault)

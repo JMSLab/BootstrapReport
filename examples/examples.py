@@ -18,10 +18,10 @@ def gamma_example():
 
     # Returns True if attribute exists
     hasattr(ex_object, "estimate")
-    ex_object.pp_plot(outfile=False)
+    ex_object.pp_plot(outfile = None)
     ex_object.get_bias_corrected_tvd(num_sets = 2, detail = False)
-    ex_object.density_plot(outfile = False)
-    ex_object.get_crossings(outfile = False)
+    ex_object.density_plot(outfile = None)
+    ex_object.get_crossings(outfile = None)
     ex_object.get_tv_min()
     
     ### Vertical-distance-minimizing normal approximation to bootstrap replicates
@@ -43,10 +43,10 @@ def normal_example():
 
     # Returns True if attribute exists
     hasattr(ex_object, "estimate")
-    ex_object.pp_plot(outfile=False)
+    ex_object.pp_plot(outfile = None)
     ex_object.get_bias_corrected_tvd(num_sets = 2, detail = False)
-    ex_object.density_plot(outfile = False)
-    ex_object.get_crossings(outfile = False)
+    ex_object.density_plot(outfile = None)
+    ex_object.get_crossings(outfile = None)
     
     ### Vertical-distance-minimizing normal approximation to bootstrap replicates
     ex_object.get_sk_min()
