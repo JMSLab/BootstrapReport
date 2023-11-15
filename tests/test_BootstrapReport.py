@@ -5,8 +5,6 @@ from scipy.stats import norm, uniform
 from scipy.optimize import minimize
 import pytest
 import sys
-sys.path.append('C:/Users/Moses/Documents/GitHub/BootstrapReport/src')
-sys.path.append('C:/Users/Moses/Documents/GitHub/BootstrapReport/src/BootstrapReport')
 from BootstrapReport.BootstrapReport import ObjectOfInterest
 import BootstrapReport.helpers as helpers
 import test_helpers
