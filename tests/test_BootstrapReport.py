@@ -146,7 +146,7 @@ def test_tv_min_warnings():
         
     rep = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
     test = ObjectOfInterest(3.329153904463066, 2.0256286444979983, replicates=rep)    
-    test.best_bandwidth_value = 0.24656275154152016
+    test.best_bandwidth_value = 0.24656
     
     with pytest.raises(ValueError):
         test.get_tv_min(optimization_bounds=((10, 20), (0, 2)))
@@ -160,7 +160,7 @@ def test_check_initial_values():
     
     rep = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
     test = ObjectOfInterest(3.329153904463066, 2.0256286444979983, replicates=rep)    
-    test.best_bandwidth_value = 0.24656275154152016
+    test.best_bandwidth_value = 0.24656
     
     def test_message(error, arg):
         with pytest.raises(error):
@@ -179,7 +179,7 @@ def test_check_optimization_bounds():
     
     rep = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
     test = ObjectOfInterest(3.329153904463066, 2.0256286444979983, replicates=rep)    
-    test.best_bandwidth_value = 0.24656275154152016
+    test.best_bandwidth_value = 0.24656
     
     def test_message(error, arg):
         with pytest.raises(error):
@@ -190,3 +190,20 @@ def test_check_optimization_bounds():
     test_message(ValueError, ((-1, 1), (0, 20), (0, 2))) 
     test_message(ValueError, np.array([[0, np.nan], [0, 1]]))
     test_message(ValueError, np.array([[-1, 1], [-1, 1]]))
+
+def test_tv_min_normal():
+    tol = 1e-1
+    rep = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
+    test = ObjectOfInterest(3.329153904463066, 2.0256286444979983, replicates=rep)    
+    test.best_bandwidth_value = 0.24656
+    test.get_tv_min()
+
+    res_est = test.get_tv_min(init_values="ESTIMATES")
+    res_rep = test.get_tv_min(init_values="REPLICATES")
+    assert np.isclose(res_est.x[0], res_rep.x[0], atol=tol, rtol=tol)
+    assert np.isclose(res_est.x[1], res_rep.x[1], atol=tol, rtol=tol)
+
+    assert hasattr(test, "tvmin_mean")
+    assert hasattr(test, "tvmin_sd")
+    assert hasattr(test, "tvmin_solveroutput")
+    assert hasattr(test, "tvmin")
