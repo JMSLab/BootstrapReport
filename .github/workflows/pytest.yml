@@ -3,7 +3,7 @@
 # Note: These tests should run quickly; we set a timeout to
 # 15 minutes to catch possible hang-ups, should they occur.
 
-name: JMSLab Unit Tests
+name: BootstrapReport Unit Tests
 
 on:
   push:
