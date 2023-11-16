@@ -4,7 +4,7 @@ import numpy as np, pandas as pd
 from scipy.stats import norm, uniform
 from scipy.optimize import minimize
 import pytest
-from BootstrapReport.BootstrapReport import ObjectOfInterest
+from BootstrapReport.report import ObjectOfInterest
 import BootstrapReport.helpers as helpers
 import test_helpers
 
