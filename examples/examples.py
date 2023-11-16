@@ -2,7 +2,7 @@
 import sys, os, re
 sys.path.append('/'.join(re.split('/|\\\\', os.path.dirname( __file__ ))[0:-1]) + '/src/BootstrapReport')
 import timeit
-from BootstrapReport import ObjectOfInterest
+from report import ObjectOfInterest
 import pandas as pd
 
 def gamma_example():

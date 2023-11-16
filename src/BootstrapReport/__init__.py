@@ -1,7 +1,12 @@
+from .report import ObjectOfInterest
+from .examples._generate_example_data import generate_example_dataset
+from . import helpers
+__version__ = "0.0.1"
+__all__ = []
+
 """
     BootstrapReport module
     ============================
-    Use it to import very important functions.
     Package structure
     -----------------
     .
