@@ -1,7 +1,7 @@
 from .report import ObjectOfInterest
 from .examples._generate_example_data import generate_example_dataset
 from . import helpers
-__version__ = "0.0.1"
+__version__ = "1.0.0"
 __all__ = []
 
 """
