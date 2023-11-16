@@ -1,4 +1,4 @@
-from .report import ObjectOfInterest
+from .main import ObjectOfInterest
 from .examples._generate_example_data import generate_example_dataset
 from . import helpers
 __version__ = "1.0.0"
