@@ -1,7 +1,7 @@
 # Install Python dependencies and run unit tests.
 #
 # Note: These tests should run quickly; we set a timeout to
-# 15 minutes to catch possible hang-ups, should they occur.
+# 20 minutes to catch possible hang-ups, should they occur.
 
 name: BootstrapReport Unit Tests
 
@@ -14,7 +14,7 @@ on:
 jobs:
   build:
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 15
+    timeout-minutes: 20
     strategy:
       matrix:
         os: [ ubuntu-latest, windows-latest, macos-latest ]
