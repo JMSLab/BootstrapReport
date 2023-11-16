@@ -2,9 +2,6 @@
 requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
-[tool.setuptools]
-packages = ["BootstrapReport"]
-
 [project]
 name = "BootstrapReport"
 version = "0.0.1" 
