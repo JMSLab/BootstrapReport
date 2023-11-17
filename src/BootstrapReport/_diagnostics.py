@@ -7,29 +7,40 @@ from scipy.stats import norm
 
 class DiagnosticsMixin:
     
-    def _heat_map(self, density = 50, outfile = False):
+    def _heat_map(self, distance = "TV", density = 50, bounds = [], vrange = [0,1], outfile = False):
         """ create a heat map showing total variation distance as mean and standard deviation are varied
-        :param mean_bounds: tuple or list of bounds for the mean
-        :param sd_bounds: tuple or list of bounds for the standard deviation
+        :param distance: string containing distance type, either 'TV' or 'SK'
         :param density: the density of the points in the heat map
-        :outfile: location to be saved
+        :param bounds: list of bounds for the mean and the standard deviation
+        :param vrange: list containing min and max values for heatmap color scaling
+        :param outfile: location to be saved
         """
         sns.set_theme(font_scale=0.6)
         replicates = np.sort(self.replicates)
-        mean_bounds = (self.estimate - 3*self.se, self.estimate + 3*self.se)
-        sd_bounds = (self.se/5, 4*self.se)
+        
+        if bounds:
+            mean_bounds = bounds[0]
+            sd_bounds = bounds[1]
+        else:
+            mean_bounds = (self.estimate - 3*self.se, self.estimate + 3*self.se)
+            sd_bounds = (self.se/5, 4*self.se)
     
         pdf_from_kde = helpers.get_kde(replicates, self.best_bandwidth_value)
         sigma_range, mu_range = np.linspace(min(sd_bounds), max(sd_bounds), density * 2), np.linspace(min(mean_bounds), max(mean_bounds), density)
         sigma_label, mu_label = ['%.3f' % sigma for sigma in sigma_range], ['%.3f' % mu for mu in mu_range]
-    
-        tvd_table = [[helpers.get_tvd(lambda x: norm.pdf(x, loc = mu, scale = sigma), pdf_from_kde) for sigma in sigma_range] for mu in mu_range]
-        df = pd.DataFrame(tvd_table, columns = sigma_label, index = mu_label)
-        ax = sns.heatmap(df, vmin = 0, vmax = 1)
+
+        if distance == "TV":
+            table = [[helpers.get_tvd(lambda x: norm.pdf(x, loc = mu, scale = sigma), pdf_from_kde) for sigma in sigma_range] for mu in mu_range]
+        elif distance == "SK":
+            table = [[helpers.get_sk_dist(replicates, norm(loc = mu, scale = sigma)) for sigma in sigma_range] for mu in mu_range]
+        
+        df = pd.DataFrame(table, columns = sigma_label, index = mu_label)
+                
+        ax = sns.heatmap(df, vmin = vrange[0], vmax = vrange[1])
         ax.invert_yaxis()
         ax.set_xlabel('σ')
         ax.set_ylabel('µ')
-        plt.title('TVD with varied µ and σ')
+        plt.title(f'{distance}D with varied µ and σ')
     
         if outfile:
             plt.savefig(outfile, dpi=600)
