@@ -5,7 +5,7 @@ from scipy.stats import gamma, norm, uniform
 import numpy as np
 
 def main():
-    outdir = 'source/lib/BootstrapTV/examples'
+    outdir = 'examples'
     gamma_rep, gamma_est = generate_example_dataset('gamma')
     df_gamma_rep, df_gamma_est = pd.DataFrame(columns = ['replicate_value']), pd.DataFrame(columns = ['estimate', 'std_err'])
     df_gamma_rep['replicate_value'], df_gamma_est['estimate'] = gamma_rep, [gamma_est]
@@ -21,6 +21,14 @@ def main():
     df_normal_rep.index += 1
     df_normal_rep.to_csv(f'{outdir}/normal_replicates.csv', index_label = 'replicate_number')
     df_normal_est.to_csv(f'{outdir}/normal_estimate.csv', index = False)
+
+    ratio_rep, ratio_est = generate_example_dataset('ratio')
+    df_ratio_rep, df_ratio_est = pd.DataFrame(columns = ['replicate_value']), pd.DataFrame(columns = ['estimate', 'std_err'])
+    df_ratio_rep['replicate_value'], df_ratio_est['estimate'] = ratio_rep, [ratio_est]
+    df_ratio_est['std_err'] = [np.std(ratio_rep, ddof = 1)]
+    df_ratio_rep.index += 1
+    df_ratio_rep.to_csv(f'{outdir}/ratio_replicates.csv', index_label = 'replicate_number')
+    df_ratio_est.to_csv(f'{outdir}/ratio_estimate.csv', index = False)
 
 
 def generate_example_dataset(name):

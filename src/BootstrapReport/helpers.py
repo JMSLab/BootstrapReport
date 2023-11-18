@@ -2,9 +2,9 @@
 
 import numpy as np
 from scipy import integrate, stats
-import checkers
 from matplotlib import pyplot as plt
 import matplotlib as mpl
+from . import checkers
 
 def get_nested_list(num_sublists) -> list:
     """ create a list of empty lists
