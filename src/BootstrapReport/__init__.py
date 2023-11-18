@@ -10,7 +10,7 @@ __all__ = []
     -----------------
     .
     ├── __init__.py
-    ├── BootstrapReport.py -> Main functions stored here
+    ├── main.py -> Main functions stored here
     ├── helpers.py -> Helper functions stored here
     ├── checkers.py -> Functions that check certain inputs and outputs stored here
 """
