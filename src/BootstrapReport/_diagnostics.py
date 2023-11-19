@@ -40,7 +40,7 @@ class DiagnosticsMixin:
         ax.invert_yaxis()
         ax.set_xlabel('σ')
         ax.set_ylabel('µ')
-        plt.title(f'{distance}D with varied µ and σ')
+        plt.title(f'{distance} with varied µ and σ')
     
         if outfile:
             plt.savefig(outfile, dpi=600)
