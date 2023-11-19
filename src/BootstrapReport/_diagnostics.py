@@ -7,7 +7,7 @@ from scipy.stats import norm
 
 class DiagnosticsMixin:
     
-    def _heat_map(self, distance = "TV", density = 50, bounds = [], vrange = [0,1], outfile = False):
+    def _heat_map(self, distance = "SK", density = 50, bounds = [], vrange = [0,1], outfile = False):
         """ create a heat map showing total variation distance as mean and standard deviation are varied
         :param distance: string containing distance type, either 'TV' or 'SK'
         :param density: the density of the points in the heat map
