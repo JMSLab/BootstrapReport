@@ -295,6 +295,56 @@ Here
 
 \end_deeper
 \begin_layout Section*
+Confidence interval for SK distance
+\end_layout
+
+\begin_layout Itemize
+For a value 
+\begin_inset Formula $x\ge0$
+\end_inset
+
+ let 
+\begin_inset Formula 
+\begin{align*}
+\overline{x}_{\alpha} & =\min\left\{ x+\sqrt{\frac{\ln\left(2/\alpha\right)}{2J}},1\right\} \\
+\underline{x}_{\alpha} & =\max\left\{ x-\sqrt{\frac{\ln\left(2/\alpha\right)}{2J}},0\right\} 
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+We calculate the 
+\begin_inset CommandInset href
+LatexCommand href
+name "DKW"
+target "https://en.wikipedia.org/wiki/Dvoretzky%E2%80%93Kiefer%E2%80%93Wolfowitz_inequality"
+literal "false"
+
+\end_inset
+
+ confidence interval whose bounds are
+\begin_inset Formula 
+\[
+\overline{SK}_{\alpha}^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)+\overline{SK}_{\alpha}^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)
+\]
+
+\end_inset
+
+and
+\begin_inset Formula 
+\[
+\underline{SK}_{\alpha}^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)+\underline{SK}_{\alpha}^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section*
 Number of changes in direction in the difference in CDFs
 \end_layout
 
