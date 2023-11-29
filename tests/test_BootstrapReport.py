@@ -17,6 +17,15 @@ def test_sk_distance():
     assert test.neg_dist <= 1 and test.neg_dist >= 0
     assert test.pos_dist <= 1 and test.pos_dist >= 0
 
+def test_sk_ci():
+    test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
+    estimate, standard_error = 0, 1
+    test = ObjectOfInterest(estimate = estimate, se = standard_error, replicates = test_replicates)
+        
+    assert test.sk_ci_lb <= test.sk_dist and test.sk_ci_ub >= test.sk_dist
+    assert test.sk_ci_ub <= 2
+    assert test.sk_ci_lb >= 0
+
 def test_density_plot():
     test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
     estimate, standard_error = 0, 1
