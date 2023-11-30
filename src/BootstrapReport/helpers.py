@@ -150,6 +150,7 @@ def get_sk_ci(num_replicates, neg_dist, pos_dist, alpha = 0.05):
                    
     sk_ci_ub = min(pos_dist + np.sqrt(np.log(2/alpha)/(2 * num_replicates)), 1) + \
                min(neg_dist + np.sqrt(np.log(2/alpha)/(2 * num_replicates)), 1)
+    sk_ci_ub = min(sk_ci_ub, 1)
     
     return sk_ci_lb, sk_ci_ub
 

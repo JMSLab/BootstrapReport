@@ -23,7 +23,7 @@ def test_sk_ci():
     test = ObjectOfInterest(estimate = estimate, se = standard_error, replicates = test_replicates)
         
     assert test.sk_ci_lb <= test.sk_dist and test.sk_ci_ub >= test.sk_dist
-    assert test.sk_ci_ub <= 2
+    assert test.sk_ci_ub <= 1
     assert test.sk_ci_lb >= 0
 
 def test_density_plot():
