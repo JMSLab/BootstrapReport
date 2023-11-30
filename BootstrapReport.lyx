@@ -328,7 +328,7 @@ literal "false"
  confidence interval whose bounds are
 \begin_inset Formula 
 \[
-\overline{SK}_{\alpha}^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)+\overline{SK}_{\alpha}^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)
+\min\left\{ \overline{SK}_{\alpha}^{+}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right)+\overline{SK}_{\alpha}^{-}\left(N\left(\mu,\sigma^{2}\right),\hat{\eta}\right),1\right\} 
 \]
 
 \end_inset
