@@ -25,7 +25,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         self.best_bandwidth_value = np.NaN
         self.bias_value = None
         self.crossings = None
-        self.sk_neg, self.sk_pos = helpers.get_sk_dist(self.replicates, norm(loc = estimate, scale = se), sep = True)
+        self.sk_neg, self.sk_pos = helpers.get_sk_dist(self.replicates, norm(loc = self.estimate, scale = self.se), sep = True)
         self.sk_dist = self.sk_neg + self.sk_pos
         self.sk_ci_lb, self.sk_ci_ub = helpers.get_sk_ci(len(self.replicates), self.sk_neg, self.sk_pos)
 

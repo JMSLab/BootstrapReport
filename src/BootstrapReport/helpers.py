@@ -140,7 +140,7 @@ def get_sk_dist(rep, normal, sep = False):
 
 def get_sk_ci(num_replicates, neg_dist, pos_dist, alpha = 0.05):
     '''calculates confidence interval for sk distance
-    :param num_replicates:number of replicates
+    :param num_replicates: number of replicates
     :param neg_dist: maximum negative distance 
     :param post_dist: maximum positive distance
     :alpha: 1 - alpha = confidence level for confidence bands
