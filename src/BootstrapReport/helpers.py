@@ -138,6 +138,22 @@ def get_sk_dist(rep, normal, sep = False):
     else:
         return -neg_dist + pos_dist
 
+def get_sk_ci(num_replicates, neg_dist, pos_dist, alpha = 0.05):
+    '''calculates confidence interval for sk distance
+    :param num_replicates: number of replicates
+    :param neg_dist: maximum negative distance 
+    :param post_dist: maximum positive distance
+    :alpha: 1 - alpha = confidence level for confidence bands
+    '''
+    sk_ci_lb = max(pos_dist - np.sqrt(np.log(2/alpha)/(2 * num_replicates)), 0) + \
+               max(neg_dist - np.sqrt(np.log(2/alpha)/(2 * num_replicates)), 0)
+                   
+    sk_ci_ub = min(pos_dist + np.sqrt(np.log(2/alpha)/(2 * num_replicates)), 1) + \
+               min(neg_dist + np.sqrt(np.log(2/alpha)/(2 * num_replicates)), 1)
+    sk_ci_ub = min(sk_ci_ub, 1)
+    
+    return sk_ci_lb, sk_ci_ub
+
 def select_bandwidth(rot_se, max_grid, min_grid, num_gridpoints, 
                      estimate, se, num_sets, num_replicates, lbound, rbound, first_seed,
                      num_expansions, max_subdivisions):
