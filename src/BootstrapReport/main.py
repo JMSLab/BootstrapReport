@@ -110,6 +110,10 @@ class ObjectOfInterest(DiagnosticsMixin):
         :param alpha: 1 - alpha = confidence level for confidence bands
         :param outfile: path to output figure displaying algorithm
         """
+        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'linecolor': '#f9665e', 'bandcolor': '#a8d9ed', 'linewidth': 2, 'dpi': 100}
+        for key, value in kwargs.items():
+            plt_set[key] = value
+        
         rep = self.replicates/self.se
         est = self.estimate/self.se
         num_rep, crossings = len(rep), 0
@@ -167,8 +171,11 @@ class ObjectOfInterest(DiagnosticsMixin):
         self.crossings = crossings
 
         if not outfile == None:
-            helpers.plot_min_crossings(outfile, optimal_path, self.crossings, alpha, rep, est,
-                                       1, upper_cb, lower_cb, left_upper_cb, **kwargs)
+            fig = helpers.plot_min_crossings(optimal_path, self.crossings, alpha, rep, est,
+                                             1, upper_cb, lower_cb, left_upper_cb, plt_set)
+            if type(outfile) == str:
+                fig.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
+            return fig
 
     def pp_plot(self, confidence_band = True, alpha = 0.05, outfile = None, **kwargs):
         """ create the pp plot
@@ -180,6 +187,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'pointsize': 7, 'pointcolor': '#f9665e', 'bandcolor': '#a8d9ed', 'dpi': 100}
         for key, value in kwargs.items():
             plt_set[key] = value
+
         num_replicates = len(self.replicates)
 
         replicates_eval_normcdf = norm.cdf(self.replicates, self.estimate, self.se)
@@ -197,28 +205,27 @@ class ObjectOfInterest(DiagnosticsMixin):
              'Neg. distance = %.3f' % self.neg_dist))
         props = dict(boxstyle = 'round, pad = 0.75, rounding_size = 0.3', facecolor = 'white', alpha = 0.86)
         
-        plt.rcParams.update({'font.size': plt_set['fontsize']})
-        plt.rcParams.update({'legend.fontsize': plt_set['legend_fontsize']})
-        plt.rcParams.update({'axes.labelsize': plt_set['labelsize']})
-        
-        plt.figure(figsize=(10, 10))
+        plt.rc('font', size = plt_set['fontsize'])
+        plt.rc('legend', fontsize = plt_set['legend_fontsize'])
+        plt.rc('axes', labelsize = plt_set['labelsize'])
+        fig, ax = plt.subplots(figsize = (10, 10))
+
         if confidence_band == True:
-            plt.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.35)
-        plt.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
+            ax.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.35)
+        ax.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
                     c = plt_set['pointcolor'], label='Bootstrap replicates')
-        plt.xlabel("CDF of normal distribution")
-        plt.ylabel("CDF of bootstrap distribution")
-        plt.legend(edgecolor = 'k', loc = 'upper left')
-        plt.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
-        plt.text(0.52, 0.06, plot_data, fontsize = plt_set['legend_fontsize'], \
+        ax.set_xlabel("CDF of normal distribution")
+        ax.set_ylabel("CDF of bootstrap distribution")
+        ax.legend(edgecolor = 'k', loc = 'upper left')
+        ax.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
+        ax.text(0.52, 0.06, plot_data, fontsize = plt_set['legend_fontsize'], \
             verticalalignment = 'bottom', horizontalalignment='left', bbox = props)
-        plt.ylim(0, 1)
-        plt.xlim(0, 1)
+        ax.set_ylim(0, 1)
+        ax.set_xlim(0, 1)
 
         if not outfile == None:
-            plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
-        plt.clf()
-        mpl.rcParams.update(mpl.rcParamsDefault)
+            fig.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
+        return fig
             
             
     def density_plot(self, bounds = None, bandwidth = None, outfile = None, **kwargs):
@@ -230,6 +237,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'linecolor': '#f9665e', 'linewidth': 1, 'dpi': 100}
         for key, value in kwargs.items():
             plt_set[key] = value
+
         if not bandwidth:
             bandwidth = self.best_bandwidth_value
         if bounds != None:
@@ -238,25 +246,24 @@ class ObjectOfInterest(DiagnosticsMixin):
             lbound, ubound = self.replicates[0] - 2*self.best_bandwidth_value, self.replicates[-1] + 2*self.best_bandwidth_value
 
         pdf_from_kde = helpers.get_kde(self.replicates, bandwidth)
-
-        xgrid = np.linspace(lbound, ubound, len(self.replicates) * 100)
+        xgrid = np.linspace(lbound, ubound, plt_set['dpi'] * 2)
         density = [pdf_from_kde(x) for x in xgrid]
 
-        plt.rcParams.update({'font.size': plt_set['fontsize']})
-        plt.rcParams.update({'legend.fontsize': plt_set['legend_fontsize']})
-        plt.rcParams.update({'axes.labelsize': plt_set['labelsize']})
+        plt.rc('font', size = plt_set['fontsize'])
+        plt.rc('legend', fontsize = plt_set['legend_fontsize'])
+        plt.rc('axes', labelsize = plt_set['labelsize'])
+        fig, ax = plt.subplots()
 
-        plt.xlim(lbound, ubound)
-        plt.xlabel('Value of object of interest')
-        plt.ylabel('Density')
-        plt.plot(xgrid, density, linewidth = plt_set['linewidth'], color = plt_set['linecolor'])
-        plt.plot([self.replicates[0], self.replicates[-1]], [0.0001, 0.0001], '|k', markeredgewidth = 1, label = 'Range of bootstrap replicates')
-        plt.legend(loc = 'best', fontsize = 'x-small', markerscale = 0.75)
+        ax.set_xlim(lbound, ubound)
+        ax.set_xlabel('Value of object of interest')
+        ax.set_ylabel('Density')
+        ax.plot(xgrid, density, linewidth = plt_set['linewidth'], color = plt_set['linecolor'])
+        ax.plot([self.replicates[0], self.replicates[-1]], [0.0001, 0.0001], '|k', markeredgewidth = 1, label = 'Range of bootstrap replicates')
+        ax.legend(loc = 'best', fontsize = 'x-small', markerscale = 0.75)
         
         if not outfile == None:
-            plt.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
-        plt.clf()
-        mpl.rcParams.update(mpl.rcParamsDefault)
+            fig.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
+        return fig
 
     def get_tv_min(self, init_values = None, optimization_bounds = None, bounds_of_integration = np.inf):
         """
