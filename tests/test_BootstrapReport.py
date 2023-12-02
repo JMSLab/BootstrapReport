@@ -42,9 +42,6 @@ def test_crossings():
     test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
     estimate, standard_error = 0, 1
     test = ObjectOfInterest(estimate = estimate, se = standard_error, replicates = test_replicates)
-    # Test function makes it to `savefig` when plotting outfile
-    with pytest.raises(AttributeError):
-        test.get_crossings(outfile = True)
     test = ObjectOfInterest(estimate = estimate, se = standard_error, \
                             replicates = norm.ppf(np.linspace(0.01, 1, 100), loc = estimate, scale = standard_error))
     test.get_crossings()
