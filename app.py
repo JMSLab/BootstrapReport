@@ -50,6 +50,7 @@ def server(input, output, session):
     def eval_ooi() -> object:
         df_rep = parsed_file()
         rep = df_rep[input.repname()].values
+        rep = rep[~np.isnan(rep)]
         ooi = ObjectOfInterest(input.est(), input.se(), rep)
         return ooi
 
