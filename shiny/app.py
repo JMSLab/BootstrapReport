@@ -49,8 +49,11 @@ def server(input, output, session):
             nonvars = ['__header__', '__version__', '__globals__']
             for key in raw_m.keys() - nonvars:
                 num_columns = raw_m[key].shape[1]
-                for i in range(1, num_columns + 1):
-                    out_m[f'{key}_{i}'] = raw_m[key][:, i - 1]
+                if num_columns > 1:
+                    for i in range(1, num_columns + 1):
+                        out_m[f'{key}_{i}'] = raw_m[key][:, i - 1]
+                else:
+                    out_m[key] = raw_m[key][:, 0]
             return pd.DataFrame(out_m)
         elif file[0]["datapath"][-3:] == 'dta':
             return pd.read_stata(file[0]["datapath"])
