@@ -3,7 +3,7 @@ from shiny.types import FileInfo
 import numpy as np, pandas as pd
 from pyreadr import read_r
 from scipy.io import loadmat
-from src.BootstrapReport import ObjectOfInterest
+from BootstrapReport import ObjectOfInterest
 
 app_ui = ui.page_fixed(
     ui.panel_title("Analyze a Report"),
