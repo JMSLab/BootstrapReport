@@ -41,7 +41,7 @@ def server(input, output, session):
     def eval_ooi() -> object:
         df_rep = parsed_file()
         rep = df_rep['replicate_value'].values
-        ooi = ObjectOfInterest(input.mean(), input.se(), rep)
+        ooi = ObjectOfInterest(input.est(), input.se(), rep)
         return ooi
 
     @output
