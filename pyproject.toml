@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "BootstrapReport"
-version = "1.0.0" 
+version = "3.0.0" 
 authors = [
     {name = "Jesse Shapiro", email = "jesse_shapiro@fas.harvard.edu"},
     {name = "Isaiah Andrews", email = "iandrews@mit.edu"}
