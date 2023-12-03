@@ -33,7 +33,7 @@ app_ui = ui.page_fixed(
     ui.tags.div(
         "See ",
         ui.tags.a("https://github.com/JMSLab/BootstrapReport", href = "https://github.com/JMSLab/BootstrapReport",),
-        " for more details on underlying methods."
+        " for details on underlying methods."
     ),
     ui.div(style = "height:30px"),
 )
