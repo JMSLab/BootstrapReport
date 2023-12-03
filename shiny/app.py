@@ -14,7 +14,7 @@ app_ui = ui.page_fixed(
       ui.panel_sidebar(
         ui.input_numeric("est", "Point estimate", 0),
         ui.input_numeric("se", "Standard error", 1),
-        ui.input_file("repcsv", "Choose data file (CSV, MAT, DTA, RDS, XLS, XLSX)", accept = [".csv", ".mat", ".dta", ".rds", ".xls", ".xlsx"], multiple = False),
+        ui.input_file("repcsv", "Choose data file (CSV, MAT, DTA, RDS, RDATA, XLS, XLSX)", accept = [".csv", ".mat", ".dta", ".rds", "rdata", ".xls", ".xlsx"], multiple = False),
         ui.output_table("summary"),
         ui.input_text("repname", "Name of column with replicates"),
         ui.p("(if unspecified, default is first column)"),
@@ -64,7 +64,7 @@ def server(input, output, session):
             return pd.read_stata(file[0]["datapath"])
         elif file[0]["datapath"][-3:].lower() == 'rds':
             raw_r = read_r(file[0]["datapath"])
-            return raw_r[None]
+            return pd.concat([raw_r[key] for key in raw_r.keys()], axis = 1)
         elif file[0]["datapath"][-3:] == 'xls' or file[0]["datapath"][-4:] == 'xlsx':
             return pd.read_excel(file[0]["datapath"])
     
