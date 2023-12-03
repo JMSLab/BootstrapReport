@@ -8,5 +8,8 @@ Documentation:
 * [Methods](./BootstrapReport.lyx)
 * [Examples](./examples/)
 
+WebApp:
+* [ShinyBootstrapReport](https://jmslab.shinyapps.io/BootstrapReport)
+
 Citation:
 * Andrews, Isaiah and Jesse M. Shapiro. "Bootstrap Diagnostics for Irregular Estimators." 2023. Working Paper.
