@@ -5,6 +5,8 @@ from pyreadr import read_r
 from scipy.io import loadmat
 from BootstrapReport import ObjectOfInterest
 
+def_est, def_se = pd.read_csv('ratio_estimate.csv').at[0, 'estimate'], pd.read_csv('ratio_estimate.csv').at[0, 'std_err']
+
 app_ui = ui.page_fixed(
     ui.div(style = "height:30px"),
     ui.panel_title("BootstrapReport"),
@@ -12,8 +14,8 @@ app_ui = ui.page_fixed(
     ui.layout_sidebar(
 
       ui.panel_sidebar(
-        ui.input_numeric("est", "Point estimate", 0),
-        ui.input_numeric("se", "Standard error", 1),
+        ui.input_numeric("est", "Point estimate", np.round(def_est, 3)),
+        ui.input_numeric("se", "Standard error", np.round(def_se, 3)),
         ui.input_file("repcsv", "Choose data file (CSV, MAT, DTA, RDS, RDATA, XLS, XLSX)", accept = [".csv", ".mat", ".dta", ".rds", ".rdata", ".xls", ".xlsx"], multiple = False),
         ui.output_table("summary"),
         ui.input_text("repname", "Name of column with replicates"),
@@ -72,7 +74,9 @@ def server(input, output, session):
     def eval_ooi() -> object:
         df_rep = parsed_file()
         if df_rep.empty:
-            return None
+            rep = pd.read_csv('ratio_replicates.csv').loc[:, 'replicate_value'].values
+            ooi = ObjectOfInterest(input.est(), input.se(), rep)
+            return ooi
         elif not input.repname() == "":
             rep = df_rep.loc[:, input.repname()].values
         else:
@@ -99,8 +103,6 @@ def server(input, output, session):
     @render.plot(alt="pp plot", width = 670, height = 670)
     def pp_plot() -> object:
         ooi = eval_ooi()
-        if ooi == None:
-            raise AttributeError("Plot will appear after replicates are uploaded")
         fig = ooi.pp_plot(fontsize = 13.5, legend_fontsize = 14.5, labelsize = 18)
         return fig
     
@@ -108,8 +110,6 @@ def server(input, output, session):
     @render.table
     def stats() -> object:
         ooi = eval_ooi()
-        if ooi == None:
-            raise AttributeError("Statistics will appear after replicates are uploaded")
         ooi.get_sk_min()
         df_stats = pd.DataFrame(columns = ['SK distance', 'Minimum SK distance', 'SK minimizing mean', 'SK minimizing SD'])
         df_stats.at[0, 'SK distance'] = ooi.sk_dist
