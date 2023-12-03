@@ -56,6 +56,9 @@ def server(input, output, session):
                         out_m[f'{key}_{i}'] = raw_m[key][:, i - 1]
                 else:
                     out_m[key] = raw_m[key][:, 0]
+            num_rows = max([out_m[col].shape[0] for col in out_m])
+            for col in out_m:
+                out_m[col] = np.concatenate([out_m[col], np.array([np.nan for _ in range(num_rows - out_m[col].shape[0])])])
             return pd.DataFrame(out_m)
         elif file[0]["datapath"][-3:] == 'dta':
             return pd.read_stata(file[0]["datapath"])
