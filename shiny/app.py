@@ -12,7 +12,7 @@ app_ui = ui.page_fixed(
     ui.layout_sidebar(
 
       ui.panel_sidebar(
-        ui.input_numeric("est", "Estimate", 0),
+        ui.input_numeric("est", "Point estimate", 0),
         ui.input_numeric("se", "Standard error", 1),
         ui.input_file("repcsv", "Choose data file (CSV, MAT, DTA, RDS, XLS, XLSX)", accept = [".csv", ".mat", ".dta", ".rds", ".xls", ".xlsx"], multiple = False),
         ui.output_table("summary"),
