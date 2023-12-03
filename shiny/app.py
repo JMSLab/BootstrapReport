@@ -14,9 +14,10 @@ app_ui = ui.page_fixed(
       ui.panel_sidebar(
         ui.input_numeric("est", "Estimate", 0),
         ui.input_numeric("se", "Standard error", 1),
-        ui.input_file("repcsv", "Choose data file", accept=[".csv", ".mat", ".dta", ".rds", ".xls", ".xlsx"], multiple=False),
+        ui.input_file("repcsv", "Choose data file (CSV, MAT, DTA, RDS, XLS, XLSX)", accept = [".csv", ".mat", ".dta", ".rds", ".xls", ".xlsx"], multiple = False),
         ui.output_table("summary"),
         ui.input_text("repname", "Name of column with replicates"),
+        ui.p("(if unspecified, default is first column)"),
         width = 5.2,
       ),
 
@@ -30,8 +31,9 @@ app_ui = ui.page_fixed(
 
     ui.tags.h3("Documentation"),
     ui.tags.div(
-        "More information about the computation process can be found at ",
+        "See ",
         ui.tags.a("https://github.com/JMSLab/BootstrapReport", href = "https://github.com/JMSLab/BootstrapReport",),
+        " for more details on underlying methods."
     ),
     ui.div(style = "height:30px"),
 )
@@ -66,7 +68,9 @@ def server(input, output, session):
     @reactive.Calc
     def eval_ooi() -> object:
         df_rep = parsed_file()
-        if not input.repname() == "":
+        if df_rep.empty:
+            return None
+        elif not input.repname() == "":
             rep = df_rep.loc[:, input.repname()].values
         else:
             rep = df_rep.iloc[:, 0].values
@@ -82,11 +86,9 @@ def server(input, output, session):
             return pd.DataFrame()
 
         row_count = df_rep.shape[0]
-        column_count = df_rep.shape[1]
         names = df_rep.columns.tolist()
         column_names = ", ".join(str(name) for name in names)
         info_df = pd.DataFrame({"Row Count": [row_count],
-                                "Column Count": [column_count],
                                 "Column Names": [column_names],})
         return info_df
 
@@ -94,6 +96,8 @@ def server(input, output, session):
     @render.plot(alt="pp plot", width = 670, height = 670)
     def pp_plot() -> object:
         ooi = eval_ooi()
+        if ooi == None:
+            raise AttributeError("Plot will appear after replicates are uploaded")
         fig = ooi.pp_plot(fontsize = 13.5, legend_fontsize = 14.5, labelsize = 18)
         return fig
     
@@ -101,6 +105,8 @@ def server(input, output, session):
     @render.table
     def stats() -> object:
         ooi = eval_ooi()
+        if ooi == None:
+            raise AttributeError("Statistics will appear after replicates are uploaded")
         ooi.get_sk_min()
         df_stats = pd.DataFrame(columns = ['SK distance', 'Minimum SK distance', 'SK minimizing mean', 'SK minimizing SD'])
         df_stats.at[0, 'SK distance'] = ooi.sk_dist
