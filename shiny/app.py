@@ -28,7 +28,7 @@ app_ui = ui.page_fixed(
       height = 900
     ),
 
-    ui.tags.h3("Info"),
+    ui.tags.h3("Documentation"),
     ui.tags.div(
         "More information about the computation process can be found at ",
         ui.tags.a("https://github.com/JMSLab/BootstrapReport", href = "https://github.com/JMSLab/BootstrapReport",),
