@@ -7,7 +7,7 @@ from BootstrapReport import ObjectOfInterest
 
 app_ui = ui.page_fixed(
     ui.div(style = "height:30px"),
-    ui.panel_title("Analyze a Report"),
+    ui.panel_title("BootstrapReport"),
 
     ui.layout_sidebar(
 
