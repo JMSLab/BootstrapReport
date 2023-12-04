@@ -37,18 +37,17 @@ def generate_example_dataset(name):
         bootstrap replicates, or 'gamma' for gamma mean bootstrap replicates
     :return: Replicates and estimate for the data
     """
-    np.random.seed(10042002)
     rng = np.random.default_rng(seed = 10042002)
     if name == 'normal':
         num_rep, mean, std = 100, 0.74, 0.086
-        raw_data = norm.rvs(size = num_rep, loc = mean, scale = np.sqrt(num_rep) * std)
+        raw_data = rng.normal(size = num_rep, loc = mean, scale = np.sqrt(num_rep) * std)
         replicates = get_replicates(raw_data)
         estimate = np.median(raw_data)
     elif name == 'gamma':
         num_rep, variance, mean = 499, 0.186, 2.189
-        raw_data = gamma.rvs((mean**2)/(variance * num_rep), scale = (variance * num_rep)/mean, size = 50)
+        raw_data = rng.gamma(shape = (mean**2)/(variance * num_rep), scale = (variance * num_rep)/mean, size = 499)
         replicates = get_replicates(raw_data, num_rep = num_rep)
-        estimate = np.average(raw_data, weights = uniform.rvs(size = 50))
+        estimate = np.average(raw_data, weights = rng.uniform(size = 499))
     elif name == 'ratio':
         num_rep, numer_std, mean = 1000, 1, 0
         replicates = rng.normal(size = num_rep, loc = mean, scale = numer_std)/ \
