@@ -215,7 +215,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         if confidence_band == True:
             ax.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.35)
         ax.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
-                    c = plt_set['pointcolor'], label='Bootstrap reps')
+                    c = plt_set['pointcolor'], label='Bootstrap reps.')
         ax.set_xlabel("CDF of normal distribution")
         ax.set_ylabel("CDF of bootstrap distribution")
         ax.legend(edgecolor = 'k', loc = 'upper left')
