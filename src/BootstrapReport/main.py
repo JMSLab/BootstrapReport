@@ -209,19 +209,20 @@ class ObjectOfInterest(DiagnosticsMixin):
         plt.rc('legend', fontsize = plt_set['legend_fontsize'])
         plt.rc('axes', labelsize = plt_set['labelsize'])
         fig, ax = plt.subplots(figsize = (10, 10))
+        ax.set_ylim(0, 1)
+        ax.set_xlim(0, 1)
 
         if confidence_band == True:
             ax.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.35)
         ax.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
-                    c = plt_set['pointcolor'], label='Bootstrap replicates')
+                    c = plt_set['pointcolor'], label='Bootstrap reps')
         ax.set_xlabel("CDF of normal distribution")
         ax.set_ylabel("CDF of bootstrap distribution")
         ax.legend(edgecolor = 'k', loc = 'upper left')
         ax.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
-        ax.text(0.52, 0.06, plot_data, fontsize = plt_set['legend_fontsize'], \
-            verticalalignment = 'bottom', horizontalalignment='left', bbox = props)
-        ax.set_ylim(0, 1)
-        ax.set_xlim(0, 1)
+        text_coord = ax.transLimits.transform((0.955, 0.045))
+        ax.text(text_coord[0], text_coord[1], plot_data, fontsize = plt_set['legend_fontsize'], \
+            verticalalignment = 'bottom', horizontalalignment='right', bbox = props)
 
         if not outfile == None:
             fig.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
@@ -386,3 +387,11 @@ class ObjectOfInterest(DiagnosticsMixin):
             warnings.warn("Warning: minimizing value for standard deviation is on the search boundary. ")
         
         return res
+
+import pandas as pd
+
+test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
+estimate, standard_error = 1.8450286322049927,0.3898786195682134
+test = ObjectOfInterest(estimate = estimate, se = standard_error, replicates = test_replicates)
+
+test.pp_plot(alpha = 0.01, outfile = "C:/Users/Moses/Downloads/ppplottest2.png")

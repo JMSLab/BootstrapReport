@@ -272,6 +272,7 @@ def plot_min_crossings(optimal_path, crossings, alpha, replicates, estimate, std
     ax.hlines(y = botbound, xmin = replicates[-1], xmax = rbound, color = 'k', lw = 2, linestyle = (1.5, (1.5, 1)))
     ax.fill_between(x_axis, lower_band, upper_band, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.25)
     ax.legend(edgecolor = 'k', loc = 'upper left')
-    ax.text(rbound - 0.04 * (rbound - lbound), botbound + 0.07 * (topbound - botbound), plot_data, 
-                fontsize = plt_set['legend_fontsize'], verticalalignment = 'bottom', horizontalalignment='right', bbox = props)
+    text_coord = ax.transLimits.transform((0.955, 0.045))
+    ax.text(text_coord[0], text_coord[1], plot_data, fontsize = plt_set['legend_fontsize'], verticalalignment = 'bottom', 
+            horizontalalignment='right', bbox = props)
     return fig
