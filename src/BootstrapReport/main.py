@@ -387,11 +387,3 @@ class ObjectOfInterest(DiagnosticsMixin):
             warnings.warn("Warning: minimizing value for standard deviation is on the search boundary. ")
         
         return res
-
-import pandas as pd
-
-test_replicates = pd.read_csv('examples/gamma_replicates.csv')['replicate_value'].values
-estimate, standard_error = 1.8450286322049927,0.3898786195682134
-test = ObjectOfInterest(estimate = estimate, se = standard_error, replicates = test_replicates)
-
-test.pp_plot(alpha = 0.01, outfile = "C:/Users/Moses/Downloads/ppplottest2.png")
