@@ -274,6 +274,6 @@ def plot_min_crossings(optimal_path, crossings, alpha, replicates, estimate, std
     ax.set_xlabel("Value of object of interest")
     ax.set_ylabel("Difference in CDFs")
     ax.legend(edgecolor = 'k', loc = 'upper left')
-    ax.text(0.955, 0.055, plot_data, fontsize = plt_set['legend_fontsize'], verticalalignment = 'bottom', 
+    ax.text(0.955, 0.045, plot_data, fontsize = plt_set['legend_fontsize'], verticalalignment = 'bottom', 
             horizontalalignment='right', bbox = props, transform = ax.transAxes)
     return fig

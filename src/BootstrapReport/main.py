@@ -220,7 +220,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         ax.set_ylabel("CDF of bootstrap distribution")
         ax.legend(edgecolor = 'k', loc = 'upper left')
         ax.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
-        ax.text(0.955, 0.055, plot_data, fontsize = plt_set['legend_fontsize'], \
+        ax.text(0.955, 0.045, plot_data, fontsize = plt_set['legend_fontsize'], \
             verticalalignment = 'bottom', horizontalalignment='right', bbox = props, transform = ax.transAxes)
 
         if not outfile == None:
