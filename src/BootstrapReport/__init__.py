@@ -1,6 +1,6 @@
 from .main import ObjectOfInterest
 from . import helpers
-__version__ = "3.0.0"
+__version__ = "3.0.1"
 __all__ = []
 
 """

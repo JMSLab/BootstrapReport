@@ -1,7 +1,7 @@
 """ Main file of the package """
-import numpy as np
+import numpy as np, matplotlib as mpl
 from matplotlib import pyplot as plt
-import matplotlib as mpl
+from matplotlib import offsetbox
 from scipy.stats import norm
 from scipy.optimize import minimize
 import warnings
@@ -110,7 +110,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         :param alpha: 1 - alpha = confidence level for confidence bands
         :param outfile: path to output figure displaying algorithm
         """
-        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'linecolor': '#f9665e', 'bandcolor': '#a8d9ed', 'linewidth': 2, 'dpi': 100}
+        plt_set = {'fontsize': 19, 'legend_fontsize': 20, 'labelsize': 28, 'linecolor': '#f9665e', 'bandcolor': '#a8d9ed', 'linewidth': 2, 'dpi': 100}
         for key, value in kwargs.items():
             plt_set[key] = value
         
@@ -184,7 +184,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         :param alpha: the upper bound for the probability that an ecdf plot of the normal
             approximation falls outside the shaded region
         """
-        plt_set = {'fontsize': 18, 'legend_fontsize': 20, 'labelsize': 28, 'pointsize': 7, 'pointcolor': '#f9665e', 'bandcolor': '#a8d9ed', 'dpi': 100}
+        plt_set = {'fontsize': 19, 'legend_fontsize': 20, 'labelsize': 28, 'pointsize': 7, 'pointcolor': '#f9665e', 'bandcolor': '#a8d9ed', 'dpi': 100}
         for key, value in kwargs.items():
             plt_set[key] = value
 
@@ -203,26 +203,26 @@ class ObjectOfInterest(DiagnosticsMixin):
             ('Num. replicates = %d' % num_replicates,
              'Pos. distance = %.3f' % self.pos_dist,
              'Neg. distance = %.3f' % self.neg_dist))
-        props = dict(boxstyle = 'round, pad = 0.75, rounding_size = 0.3', facecolor = 'white', alpha = 0.86)
+        props = dict(boxstyle = 'round, pad = 0.75, rounding_size = 0.3', facecolor = 'white', alpha = 0.8)
         
         plt.rc('font', size = plt_set['fontsize'])
         plt.rc('legend', fontsize = plt_set['legend_fontsize'])
         plt.rc('axes', labelsize = plt_set['labelsize'])
         fig, ax = plt.subplots(figsize = (10, 10))
+        ax.set_ylim(0, 1)
+        ax.set_xlim(0, 1)
 
         if confidence_band == True:
             ax.fill_between(dkw_xgrid, dkw_lbound, dkw_ubound, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.35)
         ax.scatter(replicates_eval_normcdf, replicate_ecdf, s = plt_set['pointsize'],
-                    c = plt_set['pointcolor'], label='Bootstrap replicates')
+                    c = plt_set['pointcolor'], label='Bootstrap reps.')
         ax.set_xlabel("CDF of normal distribution")
         ax.set_ylabel("CDF of bootstrap distribution")
         ax.legend(edgecolor = 'k', loc = 'upper left')
         ax.axline((0, 0), (1, 1), color="black", linestyle=(0, (5, 5)))
-        ax.text(0.52, 0.06, plot_data, fontsize = plt_set['legend_fontsize'], \
-            verticalalignment = 'bottom', horizontalalignment='left', bbox = props)
-        ax.set_ylim(0, 1)
-        ax.set_xlim(0, 1)
-
+        offbox = offsetbox.AnchoredText(plot_data, loc = "lower right", borderpad = 1.25, pad = 0)
+        offbox.patch.set(**props)
+        ax.add_artist(offbox)
         if not outfile == None:
             fig.savefig(outfile, transparent = True, dpi = plt_set['dpi'])
         return fig
