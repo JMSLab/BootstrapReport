@@ -271,6 +271,8 @@ def plot_min_crossings(optimal_path, crossings, alpha, replicates, estimate, std
     ax.hlines(y = botbound, xmin = replicates[0], xmax  = replicates[-1], color = 'k', lw = 2)
     ax.hlines(y = botbound, xmin = replicates[-1], xmax = rbound, color = 'k', lw = 2, linestyle = (1.5, (1.5, 1)))
     ax.fill_between(x_axis, lower_band, upper_band, color = plt_set['bandcolor'], label = 'Confidence band', alpha = 0.25)
+    ax.set_xlabel("Value of object of interest")
+    ax.set_ylabel("Difference in CDFs")
     ax.legend(edgecolor = 'k', loc = 'upper left')
     ax.text(0.955, 0.055, plot_data, fontsize = plt_set['legend_fontsize'], verticalalignment = 'bottom', 
             horizontalalignment='right', bbox = props, transform = ax.transAxes)
