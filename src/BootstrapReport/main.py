@@ -22,7 +22,7 @@ class ObjectOfInterest(DiagnosticsMixin):
         self.se = se
         self.replicates = np.sort(replicates)
         self.bias_corrected_tv_value = None
-        self.best_bandwidth_value = np.NaN
+        self.best_bandwidth_value = np.nan
         self.bias_value = None
         self.crossings = None
         self.sk_neg, self.sk_pos = helpers.get_sk_dist(self.replicates, norm(loc = self.estimate, scale = self.se), sep = True)
